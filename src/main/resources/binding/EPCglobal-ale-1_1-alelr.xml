@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:annox="http://annox.dev.java.net"  extensionBindingPrefixes="annox">
+
+	<globalBindings generateElementProperty="false">
+		<javaType name="java.util.Date" xmlType="xs:dateTime" parseMethod="havis.middleware.ale.base.DateTypeAdapter.parseDate" printMethod="havis.middleware.ale.base.DateTypeAdapter.printDate" />
+	</globalBindings>
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/EPCglobal-ale-1_1-alelr.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='LRSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+	</bindings>
+</bindings>

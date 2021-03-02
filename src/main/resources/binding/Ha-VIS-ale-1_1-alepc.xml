@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hi="urn:havis:tools:jaxb:interface" 
+	xmlns:hc="urn:havis:tools:jaxb:constructor" xmlns:ci="http://jaxb.dev.java.net/plugin/code-injector" xmlns:annox="http://annox.dev.java.net" extensionBindingPrefixes="hi hc ci annox">
+
+	<globalBindings generateElementProperty="false">
+		<javaType name="java.util.Date" xmlType="xs:dateTime" parseMethod="havis.middleware.ale.base.DateTypeAdapter.parseDate" printMethod="havis.middleware.ale.base.DateTypeAdapter.printDate" />
+	</globalBindings>
+	
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/Ha-VIS-ale-1_1-alepc.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCBoundarySpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCBoundarySpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCEventReportExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCFilterSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCOpReport']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCOpReportExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCOpSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCOpSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCPortSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCPortSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCReport']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCReportExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCReportsExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCReportSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCReportSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCFilterSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+			<hi:interface>havis.middleware.ale.service.IFilterSpec</hi:interface>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCReports']">
+			<annox:annotateClass>@havis.middleware.ale.base.ProcessXml(processor = havis.middleware.ale.base.XmlProcessor.class, target = javax.xml.bind.Marshaller.class)</annox:annotateClass>
+			<hc:constructor default="true">java.math.BigDecimal schemaVersion, java.util.Date creationDate, String specName, java.util.Date date, String aleid, long totalMilliseconds, String initiationCondition, String initiationTrigger, String terminationCondition, String terminationTrigger</hc:constructor>
+			<hi:interface>havis.middleware.ale.service.IReports</hi:interface>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCEventReport']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+			<hc:constructor default="true">String id, java.util.List&lt;PCOpReport&gt; opReports, java.util.List&lt;PCEventStat&gt; stats { this.id = id; this.opReports = new PCOpReports(); if(opReports != null) this.opReports.getOpReport().addAll(opReports); setPCEventStatList(stats); }
+			</hc:constructor>
+			<ci:code>
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public void setPCEventStatList(java.util.List&lt;PCEventStat&gt; stats) { if (stats != null &amp;&amp; stats.size() &gt; 0) { this.stats = new Stats(); if(stats != null) this.stats.getStat().addAll(stats); } }
+	        </ci:code>
+		</bindings>
+		
+		<bindings node="/xs:schema/xs:complexType[@name='PCEventStat']">
+			<ci:code>
+	@Override
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public List&lt;ECReaderStat&gt; getStatBlockList() { return statBlocks != null ? statBlocks.getStatBlock() : null; }
+
+	@Override
+	public void setStatBlockList(List&lt;ECReaderStat&gt; list) { statBlocks = new StatBlocks(); if(list != null) statBlocks.getStatBlock().addAll(list); }
+	        </ci:code>
+			<hi:interface>havis.middleware.ale.service.IStat</hi:interface>
+			<annox:annotateClass>@javax.xml.bind.annotation.XmlSeeAlso({
+    PCEventCountStat.class,
+    PCEventTimestampStat.class
+})
+			</annox:annotateClass>
+			<annox:annotate>
+				<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonTypeInfo" use="CLASS" include="PROPERTY" property="@class" />
+				<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes">
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">PCEventStat</annox:annotate>
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">PCEventCountStat</annox:annotate>
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">PCEventTimestampStat</annox:annotate>
+				</annox:annotate>
+			</annox:annotate>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCEventTimestampStat']">
+			<hi:interface>havis.middleware.ale.service.ITimestampStat</hi:interface>
+			<ci:code>
+	@Override
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public void setFirstSightingTime(Date value) { firstOccurringTime = value; }
+	
+	@Override
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public void setLastSightingTime(Date value) { lastOccurringTime = value; }
+			</ci:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PCEventCountStat']">
+			<hi:interface>havis.middleware.ale.service.ICountStat</hi:interface>
+		</bindings>
+		
+	</bindings>
+
+</bindings>

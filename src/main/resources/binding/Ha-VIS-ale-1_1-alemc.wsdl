@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.1">
+
+	<bindings xmlns:tns="urn:havis:alemc:wsdl:1">
+
+		<bindings scd="~tns:ALEException">
+			<class ref="havis.middleware.ale.base.exception.ALEException" />
+		</bindings>
+
+		<bindings scd="~tns:NoSuchPathException">
+			<class ref="havis.middleware.ale.base.exception.NoSuchPathException" />
+		</bindings>
+
+		<bindings scd="~tns:NoSuchIdException">
+			<class ref="havis.middleware.ale.base.exception.NoSuchIdException" />
+		</bindings>
+
+		<bindings scd="~tns:NoSuchPropertyException">
+			<class ref="havis.middleware.ale.base.exception.NoSuchPropertyException" />
+		</bindings>
+
+		<bindings scd="~tns:MCSpecValidationException">
+			<class ref="havis.middleware.ale.base.exception.ValidationException" />
+		</bindings>
+
+		<bindings scd="~tns:SecurityException">
+			<class ref="havis.middleware.ale.base.exception.SecurityException" />
+		</bindings>
+
+		<bindings scd="~tns:ImplementationException">
+			<class ref="havis.middleware.ale.base.exception.ImplementationException" />
+		</bindings>
+
+	</bindings>
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/EPCglobal-ale-1_1-aletm.xsd">
+		<bindings node="/xs:schema/xs:element[@name='TMSpec']">
+			<class ref="havis.middleware.ale.service.tm.TMSpec" />
+		</bindings>
+	</bindings>
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/EPCglobal-ale-1_1-alelr.xsd">
+		<bindings node="/xs:schema/xs:element[@name='LRSpec']">
+			<class ref="havis.middleware.ale.service.lr.LRSpec" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='LRProperty']">
+			<class ref="havis.middleware.ale.service.lr.LRProperty" />
+		</bindings>
+	</bindings>
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/EPCglobal-ale-1_1-ale.xsd">
+		<bindings node="/xs:schema/xs:element[@name='ECSpec']">
+			<class ref="havis.middleware.ale.service.ec.ECSpec" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='ECReports']">
+			<class ref="havis.middleware.ale.service.ec.ECReports" />
+		</bindings>
+	</bindings>
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/EPCglobal-ale-1_1-alecc.xsd">
+		<bindings node="/xs:schema/xs:element[@name='CCSpec']">
+			<class ref="havis.middleware.ale.service.cc.CCSpec" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='CCReports']">
+			<class ref="havis.middleware.ale.service.cc.CCReports" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='AssocTableSpec']">
+			<class ref="havis.middleware.ale.service.cc.AssocTableSpec" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='AssocTableEntryList']">
+			<class ref="havis.middleware.ale.service.cc.AssocTableEntryList" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='RNGSpec']">
+			<class ref="havis.middleware.ale.service.cc.RNGSpec" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='EPCCacheSpec']">
+			<class ref="havis.middleware.ale.service.cc.EPCCacheSpec" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='EPCPatternList']">
+			<class ref="havis.middleware.ale.service.cc.EPCPatternList" />
+		</bindings>
+	</bindings>
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/Ha-VIS-ale-1_1-alepc.xsd">
+		<bindings node="/xs:schema/xs:element[@name='PCSpec']">
+			<class ref="havis.middleware.ale.service.pc.PCSpec" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='PCReports']">
+			<class ref="havis.middleware.ale.service.pc.PCReports" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='PCOpSpecs']">
+			<class ref="havis.middleware.ale.service.pc.PCOpSpecs" />
+		</bindings>
+		<bindings node="/xs:schema/xs:element[@name='PCOpReports']">
+			<class ref="havis.middleware.ale.service.pc.PCOpReports" />
+		</bindings>
+	</bindings>
+
+</bindings>

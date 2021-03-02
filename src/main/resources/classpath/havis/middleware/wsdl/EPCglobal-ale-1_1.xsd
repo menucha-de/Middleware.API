@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:ale="urn:epcglobal:ale:xsd:1"
+            targetNamespace="urn:epcglobal:ale:xsd:1"
+            elementFormDefault="unqualified"
+            attributeFormDefault="unqualified" version="1.0">
+
+  <xsd:include schemaLocation="EPCglobal-ale-1_1-ale.xsd"/>
+  <xsd:include schemaLocation="EPCglobal-ale-1_1-alecc.xsd"/>
+  <xsd:include schemaLocation="EPCglobal-ale-1_1-alelr.xsd"/>
+  <xsd:include schemaLocation="EPCglobal-ale-1_1-aletm.xsd"/>
+</xsd:schema>

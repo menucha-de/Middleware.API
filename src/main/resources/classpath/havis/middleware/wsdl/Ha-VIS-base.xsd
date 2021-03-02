@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="urn:havis:middleware:base:xsd:1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="urn:havis:middleware:base:xsd:1" version="1.0">
+
+	<xs:complexType name="Data">
+		<xs:sequence>
+			<xs:element name="uri" type="xsd:string" />
+			<xs:element name="firstSeen" type="xsd:dateTime" />
+			<xs:element name="lastSeen" type="xsd:dateTime" />
+			<xs:element name="count" type="xsd:unsignedInt" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Tag">
+		<xsd:complexContent>
+			<xsd:extension base="Data">
+				<xs:sequence>
+					<xs:element name="epc" type="xsd:base64Binary" />
+					<xs:element name="tid" type="xsd:base64Binary" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Event">
+		<xsd:complexContent>
+			<xsd:extension base="Data">
+				<xs:sequence>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Port">
+		<xs:sequence>
+			<xs:element name="pin" type="Pin" />
+			<xs:element name="reader" type="xsd:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Pin">
+		<xs:sequence>
+			<xs:element name="id" type="xsd:int" />
+			<xs:element name="type" type="IO" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="IO">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="input" />
+			<xs:enumeration value="output" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Message">
+		<xs:sequence>
+			<xs:element name="type" type="xsd:string" />
+			<xs:element name="text" type="xsd:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:simpleType name="State">
+		<xsd:annotation>
+			<xsd:documentation>Defines the cycle state specified in ALE 1.1.1
+				(5.6.1)
+			</xsd:documentation>
+		</xsd:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="UNDEFINED">
+				<xsd:annotation>
+					<xsd:documentation>Cycle is undefined</xsd:documentation>
+				</xsd:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UNREQUESTED">
+				<xsd:annotation>
+					<xsd:documentation>Cycle is unrequested</xsd:documentation>
+				</xsd:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REQUESTED">
+				<xsd:annotation>
+					<xsd:documentation>Cycle is requested</xsd:documentation>
+				</xsd:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ACTIVE">
+				<xsd:annotation>
+					<xsd:documentation>Cycle is active</xsd:documentation>
+				</xsd:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

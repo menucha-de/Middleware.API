@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hi="urn:havis:tools:jaxb:interface"
+	xmlns:hc="urn:havis:tools:jaxb:constructor" xmlns:ci="http://jaxb.dev.java.net/plugin/code-injector" extensionBindingPrefixes="hi hc ci">
+	
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/EPCglobal-ale-1_1-aleac.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='ACClientIdentity']">
+			<ci:code>
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public void setRoleNameList(List&lt;String&gt; list) { roleNames = new RoleNames(); if(list != null) roleNames.getRoleName().addAll(list); }
+	        </ci:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ACRole']">
+			<ci:code>
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public void setPermissionNameList(List&lt;String&gt; list) { permissionNames = new PermissionNames(); if(list != null) permissionNames.getPermissionName().addAll(list); }
+	        </ci:code>
+		</bindings>
+		
+	</bindings>
+</bindings>

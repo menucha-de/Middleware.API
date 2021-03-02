@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:havis="urn:havis:ale:xsd:1"
+            targetNamespace="urn:havis:ale:xsd:1"
+            xmlns:ale="urn:epcglobal:ale:xsd:1"
+            xmlns:epcglobal="urn:epcglobal:xsd:1"
+            elementFormDefault="unqualified"
+            attributeFormDefault="unqualified"
+            version="1.0">
+  <xsd:import namespace="urn:epcglobal:ale:xsd:1" schemaLocation="EPCglobal-ale-1_1-alecc.xsd"/>
+
+  <!-- The ECStatProfileName type is an enumerated type.
+       The following strings are legal values for this type:
+        TagTimestamps
+        TagCount
+        ReaderNames        
+        ReaderSightingSignals
+       An implementation may also recognize additional strings as extensions.
+        -->
+
+  <xsd:complexType name="CCTagTimestampStat">
+    <xsd:complexContent>
+      <xsd:extension base="ale:CCTagStat">
+        <xsd:sequence>
+          <xsd:element name="firstSightingTime" type="xsd:dateTime"/>
+          <xsd:element name="lastSightingTime" type="xsd:dateTime"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="CCTagCountStat">
+    <xsd:complexContent>
+      <xsd:extension base="ale:CCTagStat">
+        <xsd:sequence>
+          <xsd:element name="count" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

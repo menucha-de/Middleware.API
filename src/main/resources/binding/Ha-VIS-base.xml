@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x1="urn:havis:tools:jaxb:interface" xmlns:x2="urn:havis:tools:jaxb:constructor" xmlns:x3="http://jaxb.dev.java.net/plugin/code-injector" extensionBindingPrefixes="x1 x2 x3">
+
+	<globalBindings generateElementProperty="false">
+		<javaType name="java.util.Date" xmlType="xs:dateTime" parseMethod="havis.middleware.ale.base.DateTypeAdapter.parseDate" printMethod="havis.middleware.ale.base.DateTypeAdapter.printDate" />
+	</globalBindings>
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/Ha-VIS-base.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='Message']">
+			<x2:constructor default="true">String type, String text</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='Port']">
+			<x2:constructor default="true">Pin pin, String reader</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='Pin']">
+			<x2:constructor default="true">int id, IO type</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='Pin']">
+			<x3:code>
+	@Override
+	public String toString() { return "Pin [id=" + id + ", type=" + type + "]"; }
+	        </x3:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='Port']">
+			<x3:code>
+	@Override
+	public String toString() { return "Port [reader=" + reader + ", pin=" + pin + "]"; }
+	        </x3:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='Data']">
+			<x3:code>
+	@Override
+	public String toString() { return "uri=" + uri + ", firstSeen=" + firstSeen + ", lastSeen=" + lastSeen + ", count=" + count; }
+	        </x3:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='Tag']">
+			<x3:code>
+	@Override
+	public String toString() { return "Tag [" + super.toString() + "]"; }
+	        </x3:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='Event']">
+			<x3:code>
+	@Override
+	public String toString() { return "Event [" + super.toString() + "]"; }
+	        </x3:code>
+		</bindings>
+
+	</bindings>
+
+</bindings>

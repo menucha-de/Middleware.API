@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb" version="2.1">
+
+	<bindings xmlns:tns="urn:epcglobal:aleac:wsdl:1">
+
+		<bindings scd="~tns:ALEException">
+			<class ref="havis.middleware.ale.base.exception.ALEException" />
+		</bindings>
+
+		<bindings scd="~tns:SecurityException">
+			<class ref="havis.middleware.ale.base.exception.SecurityException" />
+		</bindings>
+
+		<bindings scd="~tns:NoSuchPermissionException">
+			<class ref="havis.middleware.ale.base.exception.NoSuchPermissionException" />
+		</bindings>
+
+		<bindings scd="~tns:PermissionValidationException">
+			<class ref="havis.middleware.ale.base.exception.PermissionValidationException" />
+		</bindings>
+
+		<bindings scd="~tns:DuplicatePermissionException">
+			<class ref="havis.middleware.ale.base.exception.DuplicatePermissionException" />
+		</bindings>
+
+		<bindings scd="~tns:NoSuchRoleException">
+			<class ref="havis.middleware.ale.base.exception.NoSuchRoleException" />
+		</bindings>
+
+		<bindings scd="~tns:RoleValidationException">
+			<class ref="havis.middleware.ale.base.exception.RoleValidationException" />
+		</bindings>
+
+		<bindings scd="~tns:DuplicateRoleException">
+			<class ref="havis.middleware.ale.base.exception.DuplicateRoleException" />
+		</bindings>
+
+		<bindings scd="~tns:NoSuchClientIdentityException">
+			<class ref="havis.middleware.ale.base.exception.NoSuchClientIdentityException" />
+		</bindings>
+
+		<bindings scd="~tns:ClientIdentityValidationException">
+			<class ref="havis.middleware.ale.base.exception.ClientIdentityValidationException" />
+		</bindings>
+
+		<bindings scd="~tns:DuplicateClientIdentityException">
+			<class ref="havis.middleware.ale.base.exception.DuplicateClientIdentityException" />
+		</bindings>
+
+		<bindings scd="~tns:UnsupportedOperationException">
+			<class ref="havis.middleware.ale.base.exception.UnsupportedOperationException" />
+		</bindings>
+
+		<bindings scd="~tns:ImplementationException">
+			<class ref="havis.middleware.ale.base.exception.ImplementationException" />
+		</bindings>
+
+	</bindings>
+
+</bindings>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hi="urn:havis:tools:jaxb:interface" xmlns:hc="urn:havis:tools:jaxb:constructor" xmlns:annox="http://annox.dev.java.net" extensionBindingPrefixes="hi hc annox">
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/EPCglobal-ale-1_1-common.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECFieldSpec']">
+			<hc:constructor default="true">String fieldname</hc:constructor>
+			<hi:interface>IFieldSpec</hi:interface>
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECFieldSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECFilterListMember']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECFilterListMemberExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReaderStat']">
+			<hc:constructor default="true">String readerName, java.util.List&lt;ECSightingStat&gt; list { this.readerName = readerName; sightings = new Sightings(); if(list != null) sightings.getSighting().addAll(list); }
+			</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECSightingStat']">
+			<annox:annotateClass>@javax.xml.bind.annotation.XmlSeeAlso({havis.middleware.ale.service.ec.ECSightingSignalStat.class})</annox:annotateClass>
+			<annox:annotate>
+				<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonTypeInfo" use="CLASS" include="PROPERTY" property="@class" />
+				<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes">
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">havis.middleware.ale.service.ec.ECSightingSignalStat</annox:annotate>
+				</annox:annotate>
+			</annox:annotate>
+		</bindings>
+	</bindings>
+</bindings>

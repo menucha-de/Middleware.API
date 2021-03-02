@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:havis="urn:havis:ale:xsd:1"
+            targetNamespace="urn:havis:ale:xsd:1"
+            xmlns:ale="urn:epcglobal:ale:xsd:1"
+            xmlns:epcglobal="urn:epcglobal:xsd:1"
+            elementFormDefault="unqualified"
+            attributeFormDefault="unqualified"
+            version="1.0">
+  <xsd:import namespace="urn:epcglobal:xsd:1" schemaLocation="EPCglobal.xsd"/>
+  <xsd:import namespace="urn:epcglobal:ale:xsd:1" schemaLocation="EPCglobal-ale-1_1-common.xsd"/>
+  <!-- ALEPC ELEMENTS -->
+  <xsd:element name="PCSpec" type="havis:PCSpec"/>
+  <xsd:element name="PCReports" type="havis:PCReports"/>
+  <xsd:element name="PCOpSpecs" type="havis:PCOpSpecs"/>
+  <xsd:element name="PCOpReports" type="havis:PCOpReports"/>
+
+  <!-- ALEPC TYPES -->
+
+  <xsd:complexType name="PCBoundarySpec">
+    <xsd:sequence>
+      <xsd:element name="startTriggerList" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="startTrigger" type="ale:ECTrigger" minOccurs="0"
+                         maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="repeatPeriod" type="ale:ECTime" minOccurs="0"/>
+      <xsd:element name="stopTriggerList" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="stopTrigger" type="ale:ECTrigger" minOccurs="0"
+                         maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="duration" type="ale:ECTime" minOccurs="0"/>
+      <xsd:element name="noNewEventsInterval" type="ale:ECTime" minOccurs="0"/>
+      <xsd:element name="whenDataAvailable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="extension" type="havis:PCBoundarySpecExtension" minOccurs="0"/>
+      <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"
+               namespace="##other"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCBoundarySpecExtension">
+    <xsd:sequence>
+      <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"
+               namespace="##local"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCReport">
+    <xsd:sequence>
+      <xsd:element name="eventReports" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="eventReport" type="havis:PCEventReport" minOccurs="0"
+                         maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="extension" type="havis:PCReportExtension" minOccurs="0"/>
+      <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"
+               namespace="##other"/>
+    </xsd:sequence>
+    <xsd:attribute name="reportName" type="xsd:string" use="required"/>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCReportExtension">
+    <xsd:sequence>
+      <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"
+               namespace="##local"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCEventReport">
+    <xsd:sequence>
+      <xsd:element name="id" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="opReports" minOccurs="0" type="havis:PCOpReports" />
+      <xsd:element name="stats" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="stat" type="havis:PCEventStat" minOccurs="0"
+                         maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="extension" type="havis:PCEventReportExtension"
+                   minOccurs="0"/>
+      <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"
+               namespace="##other"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCEventReportExtension">
+    <xsd:sequence>
+      <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"
+               namespace="##local"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCReportSpec">
+    <xsd:sequence>
+      <xsd:element name="filterSpec" type="havis:PCFilterSpec" minOccurs="0"/>
+      <xsd:element name="triggerList" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="trigger" type="ale:ECTrigger" minOccurs="0"
+                         maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="opSpecs" minOccurs="0" type="havis:PCOpSpecs" />
+      <xsd:element name="statProfileNames" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="statProfileName" type="havis:PCStatProfileName"
+                         minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="extension" type="havis:PCReportSpecExtension" minOccurs="0"/>
+      <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"
+               namespace="##other"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <xsd:attribute name="reportIfEmpty" type="xsd:boolean" default="false"/>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCReportSpecExtension">
+    <xsd:sequence>
+      <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"
+               namespace="##local"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCFilterSpec">
+    <xsd:sequence>
+      <xsd:element name="filterList" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="filter" type="ale:ECFilterListMember" minOccurs="0"
+                         maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="extension" type="havis:PCFilterSpecExtension" minOccurs="0"/>
+      <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"
+               namespace="##other"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCFilterSpecExtension">
+    <xsd:sequence>
+      <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"
+               namespace="##local"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <!-- The PCInitiationCondition type is an enumerated type.
+       The following strings are legal values for this type:
+         TRIGGER
+         REPEAT_PERIOD
+         REQUESTED
+         UNDEFINE
+       An implementation may also recognize additional strings as extensions.
+        -->
+  <xsd:simpleType name="PCInitiationCondition">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+
+  <xsd:complexType name="PCPortSpec">
+    <xsd:sequence>
+      <xsd:element name="id" type="xsd:int"/>
+      <xsd:element name="reader" type="xsd:string"/>
+      <xsd:element name="type" type="havis:PCPortType"/>
+      <xsd:element name="extension" type="havis:PCPortSpecExtension" minOccurs="0"/>
+      <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"
+               namespace="##other"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCPortSpecExtension">
+    <xsd:sequence>
+      <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"
+               namespace="##local"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCOpReport">
+    <xsd:sequence>
+      <xsd:element name="state" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="opStatus" type="havis:PCOpStatus"/>
+      <xsd:element name="opName" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="extension" type="havis:PCOpReportExtension" minOccurs="0"/>
+      <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"
+               namespace="##other"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="PCOpReports">
+    <xsd:sequence>
+      <xsd:element name="opReport" type="havis:PCOpReport" minOccurs="0"
+                   maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCOpReportExtension">
+    <xsd:sequence>
+      <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"
+               namespace="##local"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCOpSpec">
+    <xsd:sequence>
+      <xsd:element name="opType" type="havis:PCOpType"/>
+      <xsd:element name="state" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="opName" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="portSpec" type="havis:PCPortSpec" minOccurs="0"/>
+      <xsd:element name="duration" type="ale:ECTime" minOccurs="0"/>
+      <xsd:element name="extension" type="havis:PCOpSpecExtension" minOccurs="0"/>
+      <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"
+               namespace="##other"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="PCOpSpecs">
+    <xsd:sequence>
+      <xsd:element name="opSpec" type="havis:PCOpSpec" minOccurs="0"
+                   maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCOpSpecExtension">
+    <xsd:sequence>
+      <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"
+               namespace="##local"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <!-- The PCOpType type is an enumerated type.
+       The following strings are legal values for this type:
+         READ
+         WRITE
+       An implementation may also recognize additional strings as extensions.
+        -->
+  <xsd:simpleType name="PCOpType">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+
+  <!-- The PCPortType type is an enumerated type.
+       The following strings are legal values for this type:
+         INPUT
+         OUTPUT
+       An implementation may also recognize additional strings as extensions.
+        -->
+  <xsd:simpleType name="PCPortType">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+
+  <xsd:complexType name="PCReports">
+    <xsd:complexContent>
+      <xsd:extension base="epcglobal:Document">
+        <xsd:sequence>
+          <xsd:element name="PCSpec" type="havis:PCSpec" minOccurs="0"/>
+          <xsd:element name="reports" minOccurs="0">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="report" type="havis:PCReport" minOccurs="0"
+                             maxOccurs="unbounded"/>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="extension" type="havis:PCReportsExtension" minOccurs="0"/>
+          <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"
+                   namespace="##other"/>
+        </xsd:sequence>
+        <xsd:attribute name="specName" type="xsd:string" use="required"/>
+        <xsd:attribute name="date" type="xsd:dateTime" use="required"/>
+        <xsd:attribute name="ALEID" type="xsd:string" use="required"/>
+        <xsd:attribute name="totalMilliseconds" type="xsd:long" use="required"/>
+        <xsd:attribute name="initiationCondition" type="havis:PCInitiationCondition"
+                       use="required"/>
+        <xsd:attribute name="initiationTrigger" type="ale:ECTrigger" use="optional"/>
+        <xsd:attribute name="terminationCondition" type="havis:PCTerminationCondition"
+                       use="required"/>
+        <xsd:attribute name="terminationTrigger" type="ale:ECTrigger" use="optional"/>
+        <xsd:anyAttribute processContents="lax"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCReportsExtension">
+    <xsd:sequence>
+      <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"
+               namespace="##local"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCSpec">
+    <xsd:complexContent>
+      <xsd:extension base="epcglobal:Document">
+        <xsd:sequence>
+          <xsd:element name="logicalReaders">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="logicalReader" type="xsd:string"
+                             maxOccurs="unbounded"/>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="boundarySpec" type="havis:PCBoundarySpec"/>
+          <xsd:element name="reportSpecs">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="reportSpec" type="havis:PCReportSpec" maxOccurs="unbounded"/>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="extension" type="havis:PCSpecExtension" minOccurs="0"/>
+          <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"
+                   namespace="##other"/>
+        </xsd:sequence>
+        <xsd:attribute name="includeSpecInReports" type="xsd:boolean" default="false"/>
+        <xsd:anyAttribute processContents="lax"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCSpecExtension">
+    <xsd:sequence>
+      <xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded"
+               namespace="##local"/>
+    </xsd:sequence>
+    <xsd:anyAttribute processContents="lax"/>
+  </xsd:complexType>
+
+  <!-- The PCStatProfileName type is an enumerated type.
+       The following strings are legal values for this type:
+        EventTimestamps
+        EventCount
+        ReaderNames        
+        ReaderSightingSignals
+       An implementation may also recognize additional strings as extensions.
+        -->
+  <xsd:simpleType name="PCStatProfileName">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+
+  <xsd:complexType name="PCEventStat">
+    <xsd:sequence>
+      <xsd:element name="profile" type="havis:PCStatProfileName"/>
+      <xsd:element name="statBlocks" minOccurs="0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="statBlock" type="ale:ECReaderStat" minOccurs="0"
+                         maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCEventTimestampStat">
+    <xsd:complexContent>
+      <xsd:extension base="havis:PCEventStat">
+        <xsd:sequence>
+          <xsd:element name="firstOccurringTime" type="xsd:dateTime"/>
+          <xsd:element name="lastOccurringTime" type="xsd:dateTime"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PCEventCountStat">
+    <xsd:complexContent>
+      <xsd:extension base="havis:PCEventStat">
+        <xsd:sequence>
+          <xsd:element name="count" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- The PCOpStatus type is an enumerated type.
+       The following strings are legal values for this type:
+         SUCCESS
+         MISC_ERROR_TOTAL
+         MISC_ERROR_PARTIAL
+         PORT_NOT_FOUND_ERROR
+         OP_NOT_POSSIBLE_ERROR
+       An implementation may also recognize additional strings as extensions.
+        -->
+  <xsd:simpleType name="PCOpStatus">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+
+  <!-- The PCTerminationCondition type is an enumerated type.
+       The following strings are legal values for this type:
+         TRIGGER
+         DURATION
+         NO_NEW_EVENTS
+         DATA_AVAILABLE
+         UNREQUEST
+         UNDEFINE
+       An implementation may also recognize additional strings as extensions.
+        -->
+  <xsd:simpleType name="PCTerminationCondition">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+</xsd:schema>

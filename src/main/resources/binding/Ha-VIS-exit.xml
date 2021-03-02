@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x1="urn:havis:tools:jaxb:interface" xmlns:x2="urn:havis:tools:jaxb:constructor" extensionBindingPrefixes="x1 x2">
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/Ha-VIS-exit.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='AddStringsArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;String&gt; entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='AddStringsFailedArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;String&gt; entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='BeginArgs']">
+			<x2:constructor default="true">String name</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineECSpecArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.ec.ECSpec spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineECSpecFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.ec.ECSpec spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineEPCCacheSpecArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.cc.EPCCacheSpec spec, java.util.List&lt;String&gt; entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineEPCCacheSpecFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.cc.EPCCacheSpec spec, java.util.List&lt;String&gt; entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineCCSpecArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.cc.CCSpec spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineCCSpecFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.cc.CCSpec spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineLRSpecArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.lr.LRSpec spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineLRSpecFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.lr.LRSpec spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefinePCSpecArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.pc.PCSpec spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefinePCSpecFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.pc.PCSpec spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineRNGSpecArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.cc.RNGSpec spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineRNGSpecFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.cc.RNGSpec spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineTMSpecArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.tm.TMSpec spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineTMSpecFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.tm.TMSpec spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineAssocTableSpecArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.cc.AssocTableSpec spec, java.util.List&lt;havis.middleware.ale.service.cc.AssocTableEntry&gt; entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DefineAssocTableSpecFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.cc.AssocTableSpec spec, java.util.List&lt;havis.middleware.ale.service.cc.AssocTableEntry&gt; entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DeliverECReportsArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.ec.ECReports reports</x2:constructor>
+		</bindings>
+		
+		<bindings node="/xs:schema/xs:complexType[@name='DeliverCCReportsArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.cc.CCReports reports</x2:constructor>
+		</bindings>
+		
+		<bindings node="/xs:schema/xs:complexType[@name='DeliverPCReportsArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.pc.PCReports reports</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DepleteArgs']">
+			<x2:constructor default="true">String name</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DepleteFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ErrorArgs']">
+			<x2:constructor default="true">String name, String text, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ExecuteTagArgs']">
+			<x2:constructor default="true">String name, String reader, havis.middleware.ale.base.Tag tag</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ExecutePCOpSpecsArgs']">
+			<x2:constructor default="true">java.util.List&lt;havis.middleware.ale.service.pc.PCOpSpec&gt; spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ExecutePCOpSpecsFailedArgs']">
+			<x2:constructor default="true">java.util.List&lt;havis.middleware.ale.service.pc.PCOpSpec&gt; spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='EvaluateArgs']">
+			<x2:constructor default="true">String name</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='FilterTagArgs']">
+			<x2:constructor default="true">String name, String reader, havis.middleware.ale.base.Tag tag</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='GetArgs']">
+			<x2:constructor default="true">String name</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='GetFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='GetStringArgs']">
+			<x2:constructor default="true">String name, String entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='GetStringFailedArgs']">
+			<x2:constructor default="true">String name, String entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='GetStringsArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;String&gt; entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='GetStringsFailedArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;String&gt; entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='InformationArgs']">
+			<x2:constructor default="true">String name, String text</x2:constructor>
+		</bindings>
+		
+		<bindings node="/xs:schema/xs:complexType[@name='ImmediateECSpecArgs']">
+			<x2:constructor default="true">havis.middleware.ale.service.ec.ECSpec spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ImmediateECSpecFailedArgs']">
+			<x2:constructor default="true">havis.middleware.ale.service.ec.ECSpec spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ImmediateCCSpecArgs']">
+			<x2:constructor default="true">havis.middleware.ale.service.cc.CCSpec spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ImmediateCCSpecFailedArgs']">
+			<x2:constructor default="true">havis.middleware.ale.service.cc.CCSpec spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ImmediatePCSpecArgs']">
+			<x2:constructor default="true">havis.middleware.ale.service.pc.PCSpec spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ImmediatePCSpecFailedArgs']">
+			<x2:constructor default="true">havis.middleware.ale.service.pc.PCSpec spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='MessageArgs']">
+			<x2:constructor default="true">String name, String text</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='NotifyMessageArgs']">
+			<x2:constructor default="true">String name, String reader, havis.middleware.ale.base.Message message</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='NotifyPortArgs']">
+			<x2:constructor default="true">String name, String reader, havis.middleware.ale.base.Port port</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='NotifyTagArgs']">
+			<x2:constructor default="true">String name, String reader, havis.middleware.ale.base.Tag tag</x2:constructor>
+		</bindings>
+
+
+		<bindings node="/xs:schema/xs:complexType[@name='PollArgs']">
+			<x2:constructor default="true">String name</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PollFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+
+		<bindings node="/xs:schema/xs:complexType[@name='PollCCSpecArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;havis.middleware.ale.service.cc.CCParameterListEntry&gt; entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PollCCSpecFailedArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;havis.middleware.ale.service.cc.CCParameterListEntry&gt; entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PutAssocTableEntriesArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;havis.middleware.ale.service.cc.AssocTableEntry&gt; entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PutAssocTableEntriesFailedArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;havis.middleware.ale.service.cc.AssocTableEntry&gt; entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='RemoveStringArgs']">
+			<x2:constructor default="true">String name, String entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='RemoveStringFailedArgs']">
+			<x2:constructor default="true">String name, String entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='RemoveStringsArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;String&gt; entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='RemoveStringsFailedArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;String&gt; entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ReplenishArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;String&gt; entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ReplenishFailedArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;String&gt; entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ReportArgs']">
+			<x2:constructor default="true">String name</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='SetLRPropertiesArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;havis.middleware.ale.service.lr.LRProperty&gt; entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='SetLRPropertiesFailedArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;havis.middleware.ale.service.lr.LRProperty&gt; entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='SetStringsArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;String&gt; entry</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='SetStringsFailedArgs']">
+			<x2:constructor default="true">String name, java.util.List&lt;String&gt; entry, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='StateArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.base.State state</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='SubscribeArgs']">
+			<x2:constructor default="true">String name, String uri</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='SubscribeFailedArgs']">
+			<x2:constructor default="true">String name, String uri, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TriggerArgs']">
+			<x2:constructor default="true">String name, String uri</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='UndefineArgs']">
+			<x2:constructor default="true">String name</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='UndefineFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='UnsubscribeArgs']">
+			<x2:constructor default="true">String name, String uri</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='UnsubscribeFailedArgs']">
+			<x2:constructor default="true">String name, String uri, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='UpdateLRSpecArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.lr.LRSpec spec</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='UpdateLRSpecFailedArgs']">
+			<x2:constructor default="true">String name, havis.middleware.ale.service.lr.LRSpec spec, havis.middleware.ale.exit.event.ALEException exception</x2:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='WarningArgs']">
+			<x2:constructor default="true">String name, String text</x2:constructor>
+		</bindings>
+
+	</bindings>
+
+</bindings>

@@ -1,0 +1,524 @@
+<?xml version="1.0"?>
+<project name="havis.middleware.ale-api" default="publish" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<property file="${basedir}/build.properties" />
+	<property name="basename" value="${ant.project.name}" />
+	<property name="build.dir" location="${basedir}/target" />
+	<property name="build.dir.classes" location="${basedir}/target/classes" />
+	<property name="build.dir.test" location="${build.dir}/test" />
+	<property name="build.dir.test.classes" location="${build.dir.test}/classes" />
+	<property name="doc.dir" location="${build.dir}/doc" />
+	<property name="lib.dir" location="${basedir}/lib" />
+	<property name="resources.dir" location="${basedir}/src/main/resources" />
+	<property name="resources.dir.classpath" location="${resources.dir}/classpath" />
+	<property name="src.main.dir" location="${basedir}/src/main/java" />
+	<property name="src.test.dir" location="${basedir}/src/test/java" />
+
+	<property name="openjdk-9" location="/usr/lib/jvm/java-9-openjdk-amd64" />
+	<property name="openjdk-11" location="/usr/lib/jvm/java-11-openjdk-amd64"/>
+	<property name="javac.version" value="8" />
+
+	<property name="wsdl.location" location="${resources.dir.classpath}/havis/middleware/wsdl" />
+
+	<property name="test.resources.dir" location="${basedir}/src/test/resources" />
+
+	<property file="${resources.dir}/build.properties" />
+	<property file="${resources.dir}/MANIFEST.MF" prefix="manifest" />
+
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}" />
+	</path>
+
+	<filterset id="manifest" filtersfile="${resources.dir}/MANIFEST.MF"/>
+
+	<target name="check.build.properties">
+		<condition property="ivy.resolver" else="local">
+			<isset property="ivy.resolver" />
+		</condition>
+		<fail message="Missing property 'api.url'. Does 'build.properties' file exist?" unless="api.url" />
+		<fail message="Missing property 'ivy.url'. Does 'build.properties' file exist?" unless="ivy.url" />
+	</target>
+
+	<target name="clean-cache" description="Cleans ivy cache">
+		<ivy:cleancache />
+	</target>
+
+	<target name="clean" description="Cleans the project">
+		<delete dir="${build.dir}" />
+		<delete dir="${lib.dir}" />
+	</target>
+
+	<target name="clean-all" depends="clean, clean-cache" description="Cleans the project and ivy cache" />
+
+	<target name="retrieve" depends="check.build.properties">
+		<ivy:retrieve />
+
+	</target>
+
+	<macrodef name="xjc">
+		<attribute name="name" />
+		<attribute name="package" />
+		<attribute name="catalog" default="" />
+		<element name="bindings" optional="true" implicit="true" />
+		<sequential>
+			<mkdir dir="${build.dir}/jaxb/binding" />
+			<mkdir dir="${build.dir}/jaxb/src" />
+			<taskdef name="xjc2" classname="com.sun.tools.xjc.XJC2Task">
+				<classpath>
+					<path refid="build.classpath" />
+					<pathelement location="${build.dir.classes}" />
+				</classpath>
+			</taskdef>
+			<xjc2 schema="${wsdl.location}/@{name}.xsd" destdir="${build.dir}/jaxb/src" package="@{package}" extension="true">
+				<arg value="-npa" />
+				<arg value="-Xinterface" />
+				<arg value="-Xconstructor" />
+				<arg value="-Xinject-code" />
+				<arg value="-Xannotate" />
+				<arg value="-verbose" />
+				<arg value="-episode" />
+				<arg value="${build.dir}/jaxb/binding/@{name}_xml" />
+				<bindings />
+			</xjc2>
+			<xslt style="${resources.dir}/style.xsl" in="${build.dir}/jaxb/binding/@{name}_xml" out="${build.dir}/jaxb/binding/@{name}.xml">
+				<param name="filename" expression="${wsdl.location}/@{name}.xsd" />
+			</xslt>
+			<delete file="${build.dir}/jaxb/binding/@{name}_xml" />
+		</sequential>
+	</macrodef>
+
+	<target name="compile-base" depends="retrieve">
+		<mkdir dir="${build.dir.classes}" />
+		<javac destdir="${build.dir.classes}" release="${javac.version}" debug="${javac.debug}" includeantruntime="false">
+			<src path="${src.main.dir}" />
+			<include name="havis/middleware/ale/base/*.java" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement location="${build.dir.classes}" />
+			</classpath>
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+	</target>
+
+	<target name="EPCglobal" unless="${EPCglobal.compiled}">
+		<xjc name="EPCglobal" package="havis.middleware.ale.service">
+			<binding dir="${resources.dir}" includes="binding/EPCglobal.xml" />
+		</xjc>
+		<property name="EPCglobal.compiled" value="true" />
+	</target>
+
+	<target name="EPCglobal-alelr" unless="${EPCglobal-alelr.compiled}">
+		<xjc name="EPCglobal-ale-1_1-alelr" package="havis.middleware.ale.service.lr">
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-alelr.xml" />
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml" />
+		</xjc>
+		<property name="EPCglobal-alelr.compiled" value="true" />
+	</target>
+
+	<target name="EPCglobal-aletm" unless="${EPCglobal-aletm.compiled}">
+		<xjc name="EPCglobal-ale-1_1-aletm" package="havis.middleware.ale.service.tm">
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-aletm.xml" />
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml" />
+		</xjc>
+		<property name="EPCglobal-aletm.compiled" value="true" />
+	</target>
+
+	<target name="EPCglobal-ale-common" unless="${EPCglobal-ale-common.compiled}">
+		<xjc name="EPCglobal-ale-1_1-common" package="havis.middleware.ale.service">
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-common.xml" />
+		</xjc>
+		<property name="EPCglobal-ale-common.compiled" value="true" />
+	</target>
+
+	<target name="EPCglobal-aleec" unless="${EPCglobal-aleec.compiled}">
+		<xjc name="Ha-VIS-ale-1_1-ale" package="havis.middleware.ale.service.ec">
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml EPCglobal-ale-1_1-common.xml" />
+			<binding dir="${resources.dir}" includes="binding/Ha-VIS-ale-1_1-ale.xml" />
+		</xjc>
+		<xjc name="EPCglobal-ale-1_1-ale" package="havis.middleware.ale.service.ec">
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml EPCglobal-ale-1_1-common.xml" />
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-ale.xml" />
+		</xjc>
+		<property name="EPCglobal-aleec.compiled" value="true" />
+	</target>
+
+	<target name="EPCglobal-alecc" unless="${EPCglobal-alecc.compiled}">
+		<xjc name="Ha-VIS-ale-1_1-alecc" package="havis.middleware.ale.service.cc">
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml EPCglobal-ale-1_1-common.xml" />
+			<binding dir="${resources.dir}" includes="binding/Ha-VIS-ale-1_1-alecc.xml" />
+		</xjc>
+		<xjc name="EPCglobal-ale-1_1-alecc" package="havis.middleware.ale.service.cc">
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml EPCglobal-ale-1_1-common.xml" />
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-alecc.xml" />
+		</xjc>
+		<property name="EPCglobal-alecc.compiled" value="true" />
+	</target>
+
+	<target name="EPCglobal-aleac" unless="${EPCglobal-aleac.compiled}">
+		<xjc name="EPCglobal-ale-1_1-aleac" package="havis.middleware.ale.service.ac">
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml" />
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-aleac.xml" />
+		</xjc>
+		<property name="EPCglobal-aleac.compiled" value="true" />
+	</target>
+
+	<target name="Ha-VIS-alepc" unless="${Ha-VIS-alepc.compiled}">
+		<xjc name="Ha-VIS-ale-1_1-alepc" package="havis.middleware.ale.service.pc">
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml EPCglobal-ale-1_1-common.xml" />
+			<binding dir="${resources.dir}" includes="binding/Ha-VIS-ale-1_1-alepc.xml" />
+		</xjc>
+		<property name="Ha-VIS-alepc.compiled" value="true" />
+	</target>
+
+	<target name="Ha-VIS-alerc" unless="${Ha-VIS-alerc.compiled}">
+		<xjc name="Ha-VIS-ale-1_1-alerc" package="havis.middleware.ale.service.rc">
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml" />
+		</xjc>
+		<property name="Ha-VIS-alerc.compiled" value="true" />
+	</target>
+
+	<target name="Ha-VIS-alemc" unless="${Ha-VIS-alemc.compiled}">
+		<xjc name="Ha-VIS-ale-1_1-alemc" package="havis.middleware.ale.service.mc">
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml EPCglobal-ale-1_1-alelr.xml EPCglobal-ale-1_1-aletm.xml EPCglobal-ale-1_1-common.xml EPCglobal-ale-1_1-ale.xml EPCglobal-ale-1_1-alecc.xml Ha-VIS-ale-1_1-alepc.xml" />
+			<binding dir="${resources.dir}" includes="binding/Ha-VIS-ale-1_1-alemc.xml" />
+		</xjc>
+		<property name="Ha-VIS-alemc.compiled" value="true" />
+	</target>
+
+	<target name="Ha-VIS-config" unless="${Ha-VIS-config.compiled}">
+		<xjc name="Ha-VIS-config" package="havis.middleware.ale.config">
+			<binding dir="${build.dir}/jaxb/binding/" includes="EPCglobal.xml EPCglobal-ale-1_1-alelr.xml EPCglobal-ale-1_1-aletm.xml EPCglobal-ale-1_1-common.xml EPCglobal-ale-1_1-ale.xml EPCglobal-ale-1_1-alecc.xml Ha-VIS-ale-1_1-alepc.xml" />
+			<binding dir="${resources.dir}" includes="binding/Ha-VIS-config.xml" />
+		</xjc>
+		<property name="Ha-VIS-config.compiled" value="true" />
+	</target>
+
+	<target name="Ha-VIS-base" unless="${Ha-VIS-base.compiled}">
+		<xjc name="Ha-VIS-base" package="havis.middleware.ale.base">
+			<binding dir="${resources.dir}" includes="binding/Ha-VIS-base.xml" />
+		</xjc>
+		<property name="Ha-VIS-base.compiled" value="true" />
+	</target>
+
+	<target name="Ha-VIS-exit" unless="${Ha-VIS-exit.compiled}">
+		<xjc name="Ha-VIS-exit" package="havis.middleware.ale.exit.event">
+			<binding dir="${build.dir}/jaxb/binding" includes="EPCglobal.xml EPCglobal-ale-1_1-alelr.xml EPCglobal-ale-1_1-aletm.xml EPCglobal-ale-1_1-common.xml EPCglobal-ale-1_1-ale.xml EPCglobal-ale-1_1-alecc.xml Ha-VIS-ale-1_1-alepc.xml Ha-VIS-base.xml" />
+			<binding dir="${resources.dir}" includes="binding/Ha-VIS-exit.xml" />
+		</xjc>
+		<property name="Ha-VIS-exit.compiled" value="true" />
+	</target>
+
+	<!-- Compiles the java source code using javac depends="jar-jibx"  -->
+	<target name="compile" unless="${java.compiled}" depends="retrieve, compile-base, EPCglobal, EPCglobal-alelr, EPCglobal-aletm, EPCglobal-ale-common, EPCglobal-aleec, EPCglobal-alecc, EPCglobal-aleac, Ha-VIS-alepc, Ha-VIS-alerc, Ha-VIS-alemc, Ha-VIS-config, Ha-VIS-base, Ha-VIS-exit" description="Compile">
+		<mkdir dir="${build.dir}/jaxb/classes" />
+		<mkdir dir="${build.dir.classes}" />
+		<javac destdir="${build.dir}/jaxb/classes" release="${javac.version}" debug="${javac.debug}" includeantruntime="false">
+			<src path="${build.dir}/jaxb/src" />
+			<include name="havis/middleware/ale/service/ECReaderStat.java" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement location="${build.dir.classes}" />
+			</classpath>
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+		<javac destdir="${build.dir.classes}" release="${javac.version}" debug="${javac.debug}" includeantruntime="false">
+			<src path="${src.main.dir}" />
+			<include name="havis/middleware/ale/service/*.java" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement location="${build.dir}/jaxb/classes" />
+			</classpath>
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+		<javac destdir="${build.dir}/jaxb/classes" release="${javac.version}" debug="${javac.debug}" includeantruntime="false">
+			<src path="${build.dir}/jaxb/src" />
+			<exclude name="havis/middleware/ale/service/ECReaderStat.java" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement location="${build.dir.classes}" />
+				<pathelement location="${build.dir}/jaxb/classes" />
+			</classpath>
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+		<javac destdir="${build.dir.classes}" release="${javac.version}" debug="${javac.debug}" includeantruntime="false">
+			<src path="${src.main.dir}" />
+			<exclude name="havis/middleware/ale/service/*.java" />
+			<exclude name="havis/middleware/ale/base/*.java" />
+			<exclude name="havis/middleware/ale/client/*.java" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement location="${build.dir.classes}" />
+				<pathelement location="${build.dir}/jaxb/classes" />
+			</classpath>
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+		<property name="java.compiled" value="true" />
+	</target>
+
+	<target name="prepare" depends="service" unless="${skip.test}">
+		<mkdir dir="${build.dir.test.classes}" />
+
+		<javac srcdir="${src.test.dir}" destdir="${build.dir.test.classes}" release="${javac.version}" debug="${javac.debug}" includeantruntime="false">
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement location="${build.dir.classes}" />
+				<pathelement location="${build.dir}/jaxb/classes" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="test" depends="prepare" unless="${skip.test}">
+		<java classname="havis.middleware.ale.TestRunner" fork="true" failonerror="true" timeout="180000">
+			<jvmarg value="-Djmockit-coverage-output=html" />
+			<jvmarg value="-Djmockit-coverage-outputDir=${build.dir.test}/coverage-report" />
+			<jvmarg value="-Djmockit-coverage-srcDirs=${src.main.dir}" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement location="${build.dir.classes}" />
+				<pathelement location="${build.dir}/jaxb/classes" />
+				<pathelement location="${resources.dir}/classpath" />
+				<pathelement location="${build.dir.test.classes}" />
+				<pathelement location="${test.resources.dir}/classpath" />
+			</classpath>
+		</java>
+	</target>
+
+	<macrodef name="wsimport">
+		<attribute name="name" />
+		<attribute name="package" />
+		<element name="bindings" optional="true" implicit="true" />
+		<sequential>
+			<taskdef name="wsimport2" classname="com.sun.tools.ws.ant.WsImport2">
+				<classpath>
+					<pathelement location="${build.dir.classes}" />
+					<pathelement location="${build.dir}/jaxb/classes" />
+					<path refid="build.classpath" />
+				</classpath>
+			</taskdef>
+			<wsimport2 wsdl="${wsdl.location}/@{name}" package="@{package}" sourcedestdir="${build.dir}/jaxb/src" extension="true" wsdlLocation="havis/middleware/wsdl/@{name}" xnocompile="true">
+				<bindings />
+				<arg value="-B-Xinterface" />
+				<arg value="-B-Xconstructor" />
+			</wsimport2>
+			<local name="package.local" />
+			<property name="package.local" value="@{package}" />
+			<local name="package.path" />
+			<loadresource property="package.path">
+				<propertyresource name="package.local" />
+				<filterchain>
+					<tokenfilter>
+						<filetokenizer />
+						<replacestring from="." to="/" />
+					</tokenfilter>
+				</filterchain>
+			</loadresource>
+			<javac includes="${package.path}/*.java" srcdir="${build.dir}/jaxb/src" destdir="${build.dir}/jaxb/classes" release="${javac.version}" debug="${javac.debug}" includeantruntime="false">
+				<classpath>
+					<pathelement location="${build.dir.classes}" />
+					<pathelement location="${build.dir}/jaxb/classes" />
+					<path refid="build.classpath" />
+				</classpath>
+			</javac>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="module-info">
+		<sequential>
+			<local name="module-info.present" />
+			<available file="${resources.dir}/module-info.java" property="module-info.present" />
+			<sequential if:set="module-info.present">
+				<local name="module-info.openjdk.path" />
+				<local name="module-info.openjdk.present" />
+				<local name="module-info.openjdk-9.present" />
+				<local name="module-info.openjdk-11.present" />
+				<available file="${openjdk-9}" type="dir" property="module-info.openjdk-9.present" />
+				<available file="${openjdk-11}" type="dir" property="module-info.openjdk-11.present" />
+				<condition property="module-info.openjdk.present">
+					<or>
+						<isset property="module-info.openjdk-9.present" />
+						<isset property="module-info.openjdk-11.present" />
+					</or>
+				</condition>
+				<condition property="module-info.openjdk.path" value="${openjdk-9}">
+					<isset property="module-info.openjdk-9.present" />
+				</condition>
+				<condition property="module-info.openjdk.path" value="${openjdk-11}">
+					<isset property="module-info.openjdk-11.present" />
+				</condition>
+				<sequential if:set="module-info.openjdk.present">
+					<ivy:retrieve pattern="${build.dir}/modules/[artifact].[ext]" conf="module" />
+					<exec executable="${module-info.openjdk.path}/bin/javac" failonerror="true">
+						<arg value="--release" />
+						<arg value="9" />
+						<arg value="-d" />
+						<arg value="${build.dir.classes}" />
+						<arg value="-p" />
+						<arg value="${build.dir}/modules" />
+						<arg value="${resources.dir}/module-info.java" />
+					</exec>
+				</sequential>
+				<sequential unless:set="module-info.openjdk.present">
+					<echo message="Missing openjdk-11 or 9" level="warning"/>
+				</sequential>
+			</sequential>
+		</sequential>
+	</macrodef>
+
+	<target name="EPCglobal-alelr.wsdl" unless="${EPCglobal-alelr.wsdl.compiled}">
+		<wsimport name="EPCglobal-ale-1_1-alelr.wsdl" package="havis.middleware.ale.service.lr">
+			<binding dir="${build.dir}/jaxb/binding" includes="EPCglobal.xml EPCglobal-ale-1_1-alelr.xml" />
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-alelr.wsdl" />
+		</wsimport>
+		<property name="EPCglobal-alelr.wsdl.compiled" value="true" />
+	</target>
+
+	<target name="EPCglobal-aletm.wsdl" unless="${EPCglobal-aletm.wsdl.compiled}">
+		<wsimport name="EPCglobal-ale-1_1-aletm.wsdl" package="havis.middleware.ale.service.tm">
+			<binding dir="${build.dir}/jaxb/binding" includes="EPCglobal.xml EPCglobal-ale-1_1-aletm.xml" />
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-aletm.wsdl" />
+		</wsimport>
+		<property name="EPCglobal-aletm.wsdl.compiled" value="true" />
+	</target>
+
+	<target name="EPCglobal-ale.wsdl" unless="${EPCglobal-ale.wsdl.compiled}">
+		<wsimport name="EPCglobal-ale-1_1-ale.wsdl" package="havis.middleware.ale.service.ec">
+			<binding dir="${build.dir}/jaxb/binding" includes="EPCglobal.xml EPCglobal-ale-1_1-common.xml EPCglobal-ale-1_1-ale.xml" />
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-ale.wsdl" />
+		</wsimport>
+		<property name="EPCglobal-ale.wsdl.compiled" value="true" />
+	</target>
+
+	<target name="EPCglobal-alecc.wsdl" unless="${EPCglobal-alecc.wsdl.compiled}">
+		<wsimport name="EPCglobal-ale-1_1-alecc.wsdl" package="havis.middleware.ale.service.cc">
+			<binding dir="${build.dir}/jaxb/binding" includes="EPCglobal.xml EPCglobal-ale-1_1-common.xml EPCglobal-ale-1_1-alecc.xml" />
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-alecc.wsdl" />
+		</wsimport>
+		<property name="EPCglobal-alecc.wsdl.compiled" value="true" />
+	</target>
+
+	<target name="EPCglobal-aleac.wsdl" unless="${EPCglobal-aleac.wsdl.compiled}">
+		<wsimport name="EPCglobal-ale-1_1-aleac.wsdl" package="havis.middleware.ale.service.ac">
+			<binding dir="${build.dir}/jaxb/binding" includes="EPCglobal.xml EPCglobal-ale-1_1-aleac.xml" />
+			<binding dir="${resources.dir}" includes="binding/EPCglobal-ale-1_1-aleac.wsdl" />
+		</wsimport>
+		<property name="EPCglobal-aleac.wsdl.compiled" value="true" />
+	</target>
+
+	<target name="Ha-VIS-alepc.wsdl" unless="${Ha-VIS-alepc.wsdl.compiled}">
+		<wsimport name="Ha-VIS-ale-1_1-alepc.wsdl" package="havis.middleware.ale.service.pc">
+			<binding dir="${build.dir}/jaxb/binding" includes="EPCglobal.xml EPCglobal-ale-1_1-common.xml Ha-VIS-ale-1_1-alepc.xml" />
+			<binding dir="${resources.dir}" includes="binding/Ha-VIS-ale-1_1-alepc.wsdl" />
+		</wsimport>
+		<property name="Ha-VIS-alepc.wsdl.compiled" value="true" />
+	</target>
+
+	<target name="Ha-VIS-alerc.wsdl" unless="${Ha-VIS-alerc.wsdl.compiled}">
+		<wsimport name="Ha-VIS-ale-1_1-alerc.wsdl" package="havis.middleware.ale.service.rc">
+			<binding dir="${build.dir}/jaxb/binding" includes="EPCglobal.xml Ha-VIS-ale-1_1-alerc.xml" />
+			<binding dir="${resources.dir}" includes="binding/Ha-VIS-ale-1_1-alerc.wsdl" />
+		</wsimport>
+		<property name="Ha-VIS-alerc.wsdl.compiled" value="true" />
+	</target>
+
+	<target name="Ha-VIS-alemc.wsdl" unless="${Ha-VIS-alemc.wsdl.compiled}">
+		<wsimport name="Ha-VIS-ale-1_1-alemc.wsdl" package="havis.middleware.ale.service.mc">
+			<binding dir="${build.dir}/jaxb/binding" includes="EPCglobal.xml EPCglobal-ale-1_1-alelr.xml EPCglobal-ale-1_1-aletm.xml EPCglobal-ale-1_1-common.xml EPCglobal-ale-1_1-ale.xml EPCglobal-ale-1_1-alecc.xml Ha-VIS-ale-1_1-alepc.xml Ha-VIS-ale-1_1-alemc.xml" />
+			<binding dir="${resources.dir}" includes="binding/Ha-VIS-ale-1_1-alemc.wsdl" />
+		</wsimport>
+		<property name="Ha-VIS-alemc.wsdl.compiled" value="true" />
+	</target>
+
+	<target name="service" unless="${service.compiled}" depends="compile, EPCglobal-alelr.wsdl, EPCglobal-aletm.wsdl, EPCglobal-ale.wsdl, EPCglobal-alecc.wsdl, EPCglobal-aleac.wsdl, Ha-VIS-alepc.wsdl, Ha-VIS-alerc.wsdl, Ha-VIS-alemc.wsdl">
+		<mkdir dir="${build.dir}/jaxb/binding" />
+		<javac destdir="${build.dir.classes}" release="${javac.version}" debug="${javac.debug}" includeantruntime="false">
+			<src path="${src.main.dir}" />
+			<include name="havis/middleware/ale/client/*.java" />
+			<classpath>
+				<path refid="build.classpath" />
+				<pathelement location="${build.dir.classes}" />
+				<pathelement location="${build.dir}/jaxb/classes" />
+			</classpath>
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+		<property name="service.compiled" value="true" />
+	</target>
+
+	<target name="jar" depends="service">
+		<copy todir="${build.dir.classes}">
+			<fileset dir="${build.dir}/jaxb/classes" />
+		</copy>
+		<module-info />
+		<jar jarfile="${build.dir}/${basename}.jar" manifest="${resources.dir}/MANIFEST.MF">
+			<fileset dir="${build.dir.classes}" />
+			<fileset dir="${resources.dir.classpath}" />
+		</jar>
+	</target>
+
+	<target name="jar-doc" depends="service" description="Creates a javadoc JAR of the implemented and generated classes">
+		<!-- create javadoc JAR -->
+		<javadoc destdir="${doc.dir}" author="true" version="true" use="true" windowtitle="${javadoc.windowtitle}" doctitle="${javadoc.doctitle}" bottom="${javadoc.buttom}">
+			<packageset dir="${src.main.dir}" />
+			<packageset dir="${build.dir}/jaxb/src" />
+			<classpath>
+				<pathelement location="${src.main.dir}" />
+				<pathelement location="${build.dir}/jaxb/src" />
+				<path refid="build.classpath" />
+			</classpath>
+			<group title="Packages" packages="havis.middleware.*" />
+			<link offline="true" href="http://docs.oracle.com/javase/7/docs/api/" packagelistURL="${api.url}/javase/7/" />
+		</javadoc>
+		<jar jarfile="${build.dir}/${basename}-javadoc.jar" basedir="${doc.dir}" />
+	</target>
+
+	<target name="jar-src" depends="compile" description="Creates the source JAR">
+		<!-- create source JAR -->
+		<jar jarfile="${build.dir}/${basename}-sources.jar">
+			<fileset dir="${src.main.dir}" />
+			<fileset dir="${build.dir}/jaxb/src" />
+		</jar>
+	</target>
+
+	<target name="deb" depends="jar">
+		<copy file="${build.dir}/${basename}.jar" tofile="${build.dir}/deb/opt/havis-apps/bundle/60_${basename}.jar" />
+
+		<copy todir="${build.dir}/deb">
+			<fileset dir="${resources.dir}/deb/" includes="**/*.html DEBIAN/*" />
+			<filterset refid="manifest" />
+			<filterset>
+				<filter token="PACKAGE" value="${basename}" />
+				<filter token="ARCH" value="all" />
+				<filter token="PLATFORM" value="${platform}" />
+			</filterset>
+		</copy>
+
+		<copy todir="${build.dir}/deb">
+			<fileset dir="${resources.dir}/deb/" excludes="**/*.html DEBIAN/*" />
+		</copy>
+
+		<mkdir dir="${build.dir}/deb/usr/share/doc" />
+
+		<chmod perm="755" type="file">
+			<fileset dir="${build.dir}/deb/DEBIAN">
+				<include name="preinst" />
+				<include name="postinst" />
+				<include name="prerm" />
+				<include name="postrm" />
+			</fileset>
+		</chmod>
+
+		<exec executable="fakeroot">
+			<arg value="dpkg" />
+			<arg value="-b" />
+			<arg value="${build.dir}/deb" />
+			<arg value="${build.dir}/${basename}.deb" />
+		</exec>
+	</target>
+
+	<target name="publish" depends="deb, jar-doc, jar-src" description="Publishes the JAR file to the local Ivy repository.">
+		<ivy:resolve file="${resources.dir}/ivy.xml" />
+		<ivy:publish resolver="${ivy.resolver}" pubrevision="${manifest.Bundle-Version}" status="integration" overwrite="true">
+			<artifacts pattern="${build.dir}/[artifact].[ext]" />
+		</ivy:publish>
+	</target>
+
+</project>

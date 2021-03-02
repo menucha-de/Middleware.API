@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hi="urn:havis:tools:jaxb:interface"
+	xmlns:hc="urn:havis:tools:jaxb:constructor" xmlns:ci="http://jaxb.dev.java.net/plugin/code-injector" xmlns:annox="http://annox.dev.java.net" extensionBindingPrefixes="hi hc ci annox">
+
+	<globalBindings generateElementProperty="false">
+		<javaType name="java.util.Date" xmlType="xs:dateTime" parseMethod="havis.middleware.ale.base.DateTypeAdapter.parseDate" printMethod="havis.middleware.ale.base.DateTypeAdapter.printDate" />
+	</globalBindings>
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/EPCglobal-ale-1_1-ale.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECBoundarySpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECBoundarySpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECBoundarySpecExtension2']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECFilterSpec']">
+			<hi:interface>havis.middleware.ale.service.IFilterSpec</hi:interface>
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECFilterSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECFilterSpecExtension2']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECGroupSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECGroupSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECGroupSpecExtension2']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReport']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportGroup']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportGroupCount']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportGroupCountExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportGroupExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportGroupList']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportGroupListExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportGroupListMember']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportGroupListMemberExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"otherAttributes"})</annox:annotateClass>
+			<ci:code>
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public void setECReportMemberFieldList(List&lt;ECReportMemberField&gt; list) { fieldList = new FieldList(); if(list != null) fieldList.getField().addAll(list); }
+
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public void setECTagStatList(List&lt;ECTagStat&gt; list) { if (list != null &amp;&amp; list.size() &gt; 0) { this.stats = new Stats(); if(list != null) this.stats.getStat().addAll(list); } }
+	        </ci:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportGroupListMemberExtension2']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportMemberField']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportMemberFieldExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportOutputFieldSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportOutputFieldSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportOutputSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportOutputSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportOutputSpecExtension2']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportsExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportSpecExtension2']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECSpecExtension2']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>		
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECReportGroup']">
+			<hc:constructor default="true">String groupName, ECReportGroupCount groupCount, ECReportGroupList groupList</hc:constructor>
+		</bindings>
+		
+		<bindings node="/xs:schema/xs:complexType[@name='ECReports']">
+			<annox:annotateClass>@havis.middleware.ale.base.ProcessXml(processor = havis.middleware.ale.base.XmlProcessor.class, target = javax.xml.bind.Marshaller.class)</annox:annotateClass>
+			<hc:constructor default="true">java.math.BigDecimal schemaVersion, java.util.Date creationDate, String specName, java.util.Date date, String aleid, long totalMilliseconds, String initiationCondition, String initiationTrigger, String terminationCondition, String terminationTrigger</hc:constructor>
+			<hi:interface>havis.middleware.ale.service.IReports</hi:interface>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECTagStat']">
+			<ci:code>
+	@Override
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public List&lt;ECReaderStat&gt; getStatBlockList() { return statBlocks != null ? statBlocks.getStatBlock() : null; }
+
+	@Override
+	public void setStatBlockList(List&lt;ECReaderStat&gt; list) { statBlocks = new StatBlocks(); if(list != null) statBlocks.getStatBlock().addAll(list); }
+	        </ci:code>
+			<hi:interface>havis.middleware.ale.service.IStat</hi:interface>
+			<annox:annotateClass>@javax.xml.bind.annotation.XmlSeeAlso({
+    ECTagCountStat.class,
+    ECTagTimestampStat.class
+})
+			</annox:annotateClass>
+			<annox:annotate>
+				<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonTypeInfo" use="CLASS" include="PROPERTY" property="@class" />
+				<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes">
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">ECTagStat</annox:annotate>
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">ECTagCountStat</annox:annotate>
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">ECTagTimestampStat</annox:annotate>
+				</annox:annotate>
+			</annox:annotate>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECTagTimestampStat']">
+			<hi:interface>havis.middleware.ale.service.ITimestampStat</hi:interface>
+		</bindings>
+
+	</bindings>
+</bindings>

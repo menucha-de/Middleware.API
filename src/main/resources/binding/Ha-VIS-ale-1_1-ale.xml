@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hi="urn:havis:tools:jaxb:interface" xmlns:hc="urn:havis:tools:jaxb:constructor" extensionBindingPrefixes="hi">
+
+	<globalBindings generateElementProperty="false">
+		<javaType name="java.util.Date" xmlType="xs:dateTime" parseMethod="havis.middleware.ale.base.DateTypeAdapter.parseDate" printMethod="havis.middleware.ale.base.DateTypeAdapter.printDate" />
+	</globalBindings>
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/Ha-VIS-ale-1_1-ale.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECTagCountStat']">
+			<hi:interface>havis.middleware.ale.service.ICountStat</hi:interface>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ECSightingSignalStat']">
+			<hc:constructor default="true">String host, int antenna, int strength, java.util.Date timestamp</hc:constructor>
+		</bindings>
+
+	</bindings>
+
+</bindings>

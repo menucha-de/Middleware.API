@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" version="2.1" xmlns:hc="urn:havis:tools:jaxb:constructor" extensionBindingPrefixes="hc">
+
+<!--
+	<bindings schemaLocation="../binding/EPCglobal-ale-1_1-ale.wsdl" xmlns:tns="urn:epcglobal:ale:wsdl:1">
+
+		<bindings scd="~tns:ArrayOfString">
+			<hc:constructor default="true">java.util.List&lt;String&gt; string</hc:constructor>
+		</bindings>
+
+	</bindings>
+
+-->
+	<bindings xmlns:tns="urn:epcglobal:ale:wsdl:1">
+
+		<bindings scd="~tns:ALEException">
+			<class ref="havis.middleware.ale.base.exception.ALEException" />
+		</bindings>
+
+		<bindings scd="~tns:SecurityException">
+			<class ref="havis.middleware.ale.base.exception.SecurityException" />
+		</bindings>
+
+		<bindings scd="~tns:DuplicateNameException">
+			<class ref="havis.middleware.ale.base.exception.DuplicateNameException" />
+		</bindings>
+
+		<bindings scd="~tns:ECSpecValidationException">
+			<class ref="havis.middleware.ale.base.exception.ValidationException" />
+		</bindings>
+
+		<bindings scd="~tns:InvalidURIException">
+			<class ref="havis.middleware.ale.base.exception.InvalidURIException" />
+		</bindings>
+
+		<bindings scd="~tns:NoSuchNameException">
+			<class ref="havis.middleware.ale.base.exception.NoSuchNameException" />
+		</bindings>
+
+		<bindings scd="~tns:NoSuchSubscriberException">
+			<class ref="havis.middleware.ale.base.exception.NoSuchSubscriberException" />
+		</bindings>
+
+		<bindings scd="~tns:DuplicateSubscriptionException">
+			<class ref="havis.middleware.ale.base.exception.DuplicateSubscriptionException" />
+		</bindings>
+
+		<bindings scd="~tns:ImplementationException">
+			<class ref="havis.middleware.ale.base.exception.ImplementationException" />
+		</bindings>
+
+	</bindings>
+
+</bindings>

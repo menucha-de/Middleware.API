@@ -1,0 +1,53 @@
+Bundle-Name: Ha-VIS Middleware ALE API
+Bundle-SymbolicName: havis.middleware.ale-api
+Bundle-Version: 2.7.0
+Implementation-Version: 2.7
+Bundle-ManifestVersion: 2
+Bundle-Vendor: HARTING IT_SD
+Import-Package: 
+ com.fasterxml.jackson.annotation;resolution:=optional,
+ com.sun.xml.internal.bind,
+ havis.middleware.misc,
+ havis.middleware.tdt,
+ havis.middleware.utils.data,
+ havis.transport,
+ havis.util.monitor,
+ javax.xml.bind,
+ javax.xml.namespace,
+ javax.xml.stream,
+ javax.xml.ws,
+ org.jboss.resteasy.annotations,
+ org.jboss.resteasy.spi.interception,
+ org.osgi.framework;resolution:=optional,
+ org.osgi.framework.wiring;resolution:=optional
+Export-Package: havis.middleware.ale.base,
+ havis.middleware.ale.base.annotation,
+ havis.middleware.ale.base.exception,
+ havis.middleware.ale.base.message,
+ havis.middleware.ale.base.operation,
+ havis.middleware.ale.base.operation.port,
+ havis.middleware.ale.base.operation.port.result,
+ havis.middleware.ale.base.operation.tag,
+ havis.middleware.ale.base.operation.tag.result,
+ havis.middleware.ale.base.po,
+ havis.middleware.ale.base.report,
+ havis.middleware.ale.client,
+ havis.middleware.ale.config,
+ havis.middleware.ale.config.service.mc,
+ havis.middleware.ale.exit,
+ havis.middleware.ale.exit.event,
+ havis.middleware.ale.reader,
+ havis.middleware.ale.service,
+ havis.middleware.ale.service.ac,
+ havis.middleware.ale.service.cc,
+ havis.middleware.ale.service.doc,
+ havis.middleware.ale.service.ec,
+ havis.middleware.ale.service.lr,
+ havis.middleware.ale.service.mc,
+ havis.middleware.ale.service.pc,
+ havis.middleware.ale.service.rc,
+ havis.middleware.ale.service.tm,
+ havis.middleware.ale.subscriber,
+ havis.middleware.wsdl
+
+

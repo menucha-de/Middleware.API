@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:annox="http://annox.dev.java.net"  extensionBindingPrefixes="annox">
+
+	<globalBindings generateElementProperty="false">
+		<javaType name="java.util.Date" xmlType="xs:dateTime" parseMethod="havis.middleware.ale.base.DateTypeAdapter.parseDate" printMethod="havis.middleware.ale.base.DateTypeAdapter.printDate" />
+	</globalBindings>
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/EPCglobal-ale-1_1-aletm.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='TMFixedFieldListSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TMFixedFieldSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TMFixedFieldSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TMSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TMVariableFieldListSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TMVariableFieldSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TMVariableFieldSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TMSpec']">
+			<annox:annotate>
+				<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonTypeInfo" use="CLASS" include="PROPERTY" property="@class" />
+				<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes">
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">TMFixedFieldListSpec</annox:annotate>
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">TMVariableFieldListSpec</annox:annotate>
+				</annox:annotate>
+			</annox:annotate>
+		</bindings>
+	</bindings>
+</bindings>

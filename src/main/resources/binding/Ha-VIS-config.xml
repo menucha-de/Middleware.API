@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hi="urn:havis:tools:jaxb:interface"
+	xmlns:hc="urn:havis:tools:jaxb:constructor" extensionBindingPrefixes="hi hc">
+
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/Ha-VIS-config.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='AssociationType']">
+			<hc:constructor default="true">String name, Boolean enable, havis.middleware.ale.service.cc.AssocTableSpec spec,
+				havis.middleware.ale.service.cc.AssocTableEntryList entries
+			</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CacheType']">
+			<hc:constructor default="true">String name, boolean enable, havis.middleware.ale.service.cc.EPCCacheSpec spec,
+				havis.middleware.ale.service.cc.EPCPatternList patterns
+			</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CommandCycleType']">
+			<hc:constructor default="true">String name, boolean enable, havis.middleware.ale.service.cc.CCSpec spec</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='RandomType']">
+			<hc:constructor default="true">String name, boolean enable, havis.middleware.ale.service.cc.RNGSpec spec</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='EventCycleType']">
+			<hc:constructor default="true">String name, boolean enable, havis.middleware.ale.service.ec.ECSpec spec</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='LogicalReaderType']">
+			<hc:constructor default="true">String name, boolean enable, havis.middleware.ale.service.lr.LRSpec spec</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PortCycleType']">
+			<hc:constructor default="true">String name, boolean enable, havis.middleware.ale.service.pc.PCSpec spec</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='FieldType']">
+			<hc:constructor default="true">String name, boolean enable, havis.middleware.ale.service.tm.TMSpec spec</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='PropertyType']">
+			<hc:constructor default="true">String name, String value</hc:constructor>
+		</bindings>
+
+	</bindings>
+
+
+</bindings>

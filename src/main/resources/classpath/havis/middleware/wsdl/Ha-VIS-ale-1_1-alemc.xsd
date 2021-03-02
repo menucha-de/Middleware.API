@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:havis="urn:havis:ale:xsd:1" targetNamespace="urn:havis:ale:xsd:1" xmlns:ale="urn:epcglobal:ale:xsd:1" xmlns:epcglobal="urn:epcglobal:xsd:1" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="1.0">
+	<xsd:import namespace="urn:epcglobal:xsd:1" schemaLocation="EPCglobal.xsd" />
+	<xsd:import namespace="urn:epcglobal:ale:xsd:1" schemaLocation="EPCglobal-ale-1_1.xsd" />
+	<xsd:include schemaLocation="Ha-VIS-ale-1_1-alepc.xsd" />
+	<!-- ALEMC ELEMENTS -->
+	<xsd:element name="MCSpec" type="havis:MCSpec" />
+	<xsd:element name="MCEventCycleSpec" type="havis:MCEventCycleSpec" />
+	<xsd:element name="MCLogicalReaderSpec" type="havis:MCLogicalReaderSpec" />
+	<xsd:element name="MCTagMemorySpec" type="havis:MCTagMemorySpec" />
+	<xsd:element name="MCCommandCycleSpec" type="havis:MCCommandCycleSpec" />
+	<xsd:element name="MCAssociationSpec" type="havis:MCAssociationSpec" />
+	<xsd:element name="MCCacheSpec" type="havis:MCCacheSpec" />
+	<xsd:element name="MCRandomSpec" type="havis:MCRandomSpec" />
+	<xsd:element name="MCPortCycleSpec" type="havis:MCPortCycleSpec" />
+	<xsd:element name="MCPCOpSpecs" type="havis:MCPCOpSpecs" />
+
+	<!-- ALEMC TYPES -->
+
+	<xsd:complexType name="MCConnectorSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="assembly" type="xsd:string" minOccurs="1" />
+					<xsd:element name="type" type="xsd:string" minOccurs="1" />
+					<xsd:element name="properties" minOccurs="0">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="property" type="havis:MCProperty" minOccurs="0" maxOccurs="unbounded" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="retries" minOccurs="0">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="retry" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="files" minOccurs="0">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="file" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="extension" type="havis:MCConnectorSpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:attribute name="legacy" type="xsd:boolean" />
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCConnectorSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<!-- The MCExitLevel type is an enumerated type. The following strings are legal values for this type: ALL TRACING INFORMATION WARNING ERROR An implementation may also recognize additional strings as extensions. -->
+	<xsd:simpleType name="MCExitLevel">
+		<xsd:restriction base="xsd:string" />
+	</xsd:simpleType>
+
+	<xsd:complexType name="MCExitSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCConnectorSpec">
+				<xsd:sequence>
+					<xsd:element name="events" minOccurs="0">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="event" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="exitExtension" type="havis:MCExitSpecExtension" minOccurs="0" />
+				</xsd:sequence>
+				<xsd:attribute name="level" type="havis:MCExitLevel" />
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCExitSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MCVersionSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="standard" type="xsd:string" minOccurs="1" />
+					<xsd:element name="vendor" type="xsd:string" minOccurs="1" />
+					<xsd:element name="extension" type="havis:MCVersionSpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCVersionSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MCLogicalReaderSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="spec" type="ale:LRSpec" minOccurs="1" />
+					<xsd:element name="extension" type="havis:MCLogicalReaderSpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCLogicalReaderSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MCTagMemorySpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="spec" type="ale:TMSpec" minOccurs="1" />
+					<xsd:element name="extension" type="havis:MCTagMemorySpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCTagMemorySpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MCEventCycleSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="spec" type="ale:ECSpec" minOccurs="1" />
+					<xsd:element name="extension" type="havis:MCEventCycleSpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCEventCycleSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MCCommandCycleSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="spec" type="ale:CCSpec" minOccurs="1" />
+					<xsd:element name="extension" type="havis:MCCommandCycleSpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCCommandCycleSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MCPortCycleSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="spec" type="havis:PCSpec" minOccurs="1" />
+					<xsd:element name="extension" type="havis:MCPortCycleSpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCPortCycleSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MCPCOpSpecs">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="specs" type="havis:PCOpSpecs" minOccurs="1" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCCacheSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="spec" type="ale:EPCCacheSpec" minOccurs="1" />
+					<xsd:element name="patterns" type="ale:EPCPatternList" />
+					<xsd:element name="extension" type="havis:MCCacheSpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCCacheSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MCAssociationSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="spec" type="ale:AssocTableSpec" minOccurs="1" />
+					<xsd:element name="entries" type="ale:AssocTableEntryList" />
+					<xsd:element name="extension" type="havis:MCAssociationSpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCAssociationSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MCRandomSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="spec" type="ale:RNGSpec" minOccurs="1" />
+					<xsd:element name="extension" type="havis:MCRandomSpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCRandomSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<xsd:complexType name="MCSubscriberSpec">
+		<xsd:complexContent>
+			<xsd:extension base="havis:MCSpec">
+				<xsd:sequence>
+					<xsd:element name="uri" type="xsd:string" minOccurs="1" />
+					<xsd:element name="properties" minOccurs="0">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="property" type="havis:MCProperty" minOccurs="0" maxOccurs="unbounded" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="extension" type="havis:MCSubscriberSpecExtension" minOccurs="0" />
+					<xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" namespace="##other" />
+				</xsd:sequence>
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCSubscriberSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+
+	<!-- The MCPath type is the path to the specs. The following strings are legal values for this type: / Connector/ Exit/ Reader/ Subscriber/ Service/ LR/ Version LogicalReader TM/ Version TagMemory EC/ Version EventCycle Subsciber CC/ Version CommandCycle Subscriber Cache Association Random An implementation may also recognize additional strings as extensions. -->
+	<xsd:simpleType name="MCPath">
+		<xsd:restriction base="xsd:string" />
+	</xsd:simpleType>
+
+	<xsd:complexType name="MCProperty">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="1" />
+			<xsd:element name="value" type="xsd:string" minOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MCProperties">
+		<xsd:sequence>
+			<xsd:element name="property" type="havis:MCProperty" minOccurs="0"
+			             maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCSpec">
+		<xsd:complexContent>
+			<xsd:extension base="epcglobal:Document">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" minOccurs="1" />
+					<xsd:element name="baseExtension" type="havis:MCSpecExtension" minOccurs="0" />
+				</xsd:sequence>
+				<xsd:attribute name="enable" type="xsd:boolean" default="true" />
+				<xsd:attribute name="id" type="xsd:string" />
+				<xsd:anyAttribute processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MCSpecExtension">
+		<xsd:sequence>
+			<xsd:any processContents="lax" minOccurs="1" maxOccurs="unbounded" namespace="##local" />
+		</xsd:sequence>
+		<xsd:anyAttribute processContents="lax" />
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hi="urn:havis:tools:jaxb:interface"
+	xmlns:hc="urn:havis:tools:jaxb:constructor" xmlns:ci="http://jaxb.dev.java.net/plugin/code-injector" xmlns:annox="http://annox.dev.java.net" extensionBindingPrefixes="hi hc ci annox">
+
+	<globalBindings generateElementProperty="false">
+		<javaType name="java.util.Date" xmlType="xs:dateTime" parseMethod="havis.middleware.ale.base.DateTypeAdapter.parseDate" printMethod="havis.middleware.ale.base.DateTypeAdapter.printDate" />
+	</globalBindings>
+	
+	<bindings schemaLocation="../classpath/havis/middleware/wsdl/EPCglobal-ale-1_1-alecc.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='AssocTableSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCBoundarySpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCBoundarySpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCCmdReport']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCCmdReportExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCCmdSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCCmdSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCFilterSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCOpDataSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCOpDataSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCOpReport']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCOpReportExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCOpSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCOpSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCReportsExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCTagReportExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='EPCCacheSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='RNGSpecExtension']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='AssocTableEntryList']">
+			<hc:constructor default="true">java.util.List&lt;AssocTableEntry&gt; list { entries = new Entries(); if(list != null) entries.getEntry().addAll(list); }
+			</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCFilterSpec']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+			<hi:interface>havis.middleware.ale.service.IFilterSpec</hi:interface>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCReports']">
+			<annox:annotateClass>@havis.middleware.ale.base.ProcessXml(processor = havis.middleware.ale.base.XmlProcessor.class, target = javax.xml.bind.Marshaller.class)</annox:annotateClass>
+			<hc:constructor default="true">java.math.BigDecimal schemaVersion, java.util.Date creationDate, String specName, java.util.Date date, String aleid, long totalMilliseconds, String initiationCondition, String initiationTrigger, String terminationCondition, String terminationTrigger</hc:constructor>
+			<hi:interface>havis.middleware.ale.service.IReports</hi:interface>
+			<ci:code>
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public void setCCCmdReportList(List&lt;CCCmdReport&gt; list) { cmdReports = new CmdReports(); if(list != null) cmdReports.getCmdReport().addAll(list); }
+	        </ci:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='CCTagReport']">
+			<annox:annotateClass>@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"any", "otherAttributes"})</annox:annotateClass>
+			<hc:constructor default="true">String id, java.util.List&lt;havis.middleware.ale.service.cc.CCOpReport&gt; opReports, java.util.List&lt;havis.middleware.ale.service.cc.CCTagStat&gt; stats { this.id = id; this.opReports = new OpReports(); if(opReports != null) this.opReports.getOpReport().addAll(opReports); setCCTagStatList(stats); }
+			</hc:constructor>
+			<ci:code>
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public void setCCTagStatList(java.util.List&lt;havis.middleware.ale.service.cc.CCTagStat&gt; stats) { if (stats != null &amp;&amp; stats.size() &gt; 0) { this.stats = new Stats(); this.stats.getStat().addAll(stats); } }
+	        </ci:code>
+		</bindings>
+		
+		<bindings node="/xs:schema/xs:complexType[@name='CCTagStat']">
+			<ci:code>
+	@Override
+	@com.fasterxml.jackson.annotation.JsonIgnore
+	@javax.xml.bind.annotation.XmlTransient
+	public List&lt;ECReaderStat&gt; getStatBlockList() { return statBlocks != null ? statBlocks.getStatBlock() : null; }
+
+	@Override
+	public void setStatBlockList(List&lt;ECReaderStat&gt; list) { statBlocks = new StatBlocks(); if(list != null) statBlocks.getStatBlock().addAll(list); }
+	        </ci:code>
+			<hi:interface>havis.middleware.ale.service.IStat</hi:interface>
+			<annox:annotateClass>@javax.xml.bind.annotation.XmlSeeAlso({
+    CCTagCountStat.class,
+    CCTagTimestampStat.class
+})
+			</annox:annotateClass>
+			<annox:annotate>
+				<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonTypeInfo" use="CLASS" include="PROPERTY" property="@class" />
+				<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes">
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">CCTagStat</annox:annotate>
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">CCTagCountStat</annox:annotate>
+					<annox:annotate annox:class="com.fasterxml.jackson.annotation.JsonSubTypes$Type">CCTagTimestampStat</annox:annotate>
+				</annox:annotate>
+			</annox:annotate>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='EPCPatternList']">
+			<hc:constructor default="true">java.util.List&lt;String&gt; list { patterns = new Patterns(); if (list != null) patterns.getPattern().addAll(list); }</hc:constructor>
+		</bindings>
+
+	</bindings>
+</bindings>

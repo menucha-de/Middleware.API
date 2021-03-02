@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="urn:havis:middleware:config:xsd:1" xmlns:ale="urn:epcglobal:ale:xsd:1" xmlns:havis="urn:havis:ale:xsd:1" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="urn:havis:middleware:config:xsd:1"
+	version="1.0">
+
+	<xsd:import namespace="urn:epcglobal:ale:xsd:1" schemaLocation="EPCglobal-ale-1_1.xsd" />
+	<xsd:import namespace="urn:havis:ale:xsd:1" schemaLocation="Ha-VIS-ale-1_1-alepc.xsd" />
+
+	<xs:element name="config" type="ConfigType" />
+
+	<xs:complexType name="ConfigType">
+		<xs:sequence>
+			<xs:element name="global" type="GlobalType" />
+			<xs:element name="connector" type="ConnectorsType" />
+			<xs:element name="service" type="ServiceType" />
+		</xs:sequence>
+		<xsd:attribute default="false" name="debug" type="xs:boolean" />
+		<xsd:attribute default="true" name="persist" type="xs:boolean" />
+		<xsd:attribute default="false" name="soapService" type="xs:boolean" />
+	</xs:complexType>
+
+	<xs:complexType name="GlobalType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="aleid" type="xs:string" />
+			<xs:element name="tdt" type="xs:string" />
+			<xs:element name="maxThreads" type="xs:unsignedInt" />
+			<xs:element name="threadTimeout" type="xs:unsignedInt" />
+			<xs:element name="queueWarningTimeout" type="xs:unsignedInt" />
+			<xs:element name="unicode" type="UnicodeType" />
+			<xs:element name="urn" type="UrnType" />
+			<xs:element name="readerCycle" type="ReaderCycleType" />
+			<xs:element name="subscriber" type="SubscriberConfigType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ConnectorsType">
+		<xs:sequence>
+			<xs:element name="exits" type="ExitConnectorsType" />
+			<xs:element name="readers" type="ReaderConnectorsType" />
+			<xs:element name="subscribers" type="SubscriberConnectorsType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ConnectorType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="assembly" type="xs:string" />
+			<xs:element name="type" type="xs:string" />
+			<xs:element minOccurs="0" name="retries" type="RetriesType" />
+			<xs:element minOccurs="0" name="files" type="FilesType" />
+			<xs:element minOccurs="0" name="properties" type="PropertiesType" />
+		</xs:sequence>
+		<xsd:attribute default="false" name="enable" type="xs:boolean" />
+		<xsd:attribute default="false" name="legacy" type="xs:boolean" />
+	</xs:complexType>
+
+	<xs:simpleType name="LevelType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="all" />
+			<xs:enumeration value="tracing" />
+			<xs:enumeration value="information" />
+			<xs:enumeration value="warning" />
+			<xs:enumeration value="error" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="ExitConnectorsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="exit" type="ExitConnectorType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ExitConnectorType">
+		<xsd:complexContent>
+			<xsd:extension base="ConnectorType">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="event" type="xs:string" />
+				</xs:sequence>
+				<xsd:attribute name="level" type="LevelType" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ReaderConnectorsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="reader" type="ReaderConnectorType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ReaderConnectorType">
+		<xsd:complexContent>
+			<xsd:extension base="ConnectorType" />
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SubscriberConnectorsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="subscriber" type="SubscriberConnectorType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SubscriberConnectorType">
+		<xsd:complexContent>
+			<xsd:extension base="ConnectorType" />
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ServiceType">
+		<xs:sequence>
+			<xs:element name="lr" type="LRType" />
+			<xs:element name="tm" type="TMType" />
+			<xs:element name="ec" type="ECType" />
+			<xs:element name="cc" type="CCType" />
+			<xs:element name="ac" type="ACType" />
+			<xs:element name="pc" type="PCType" />
+			<xs:element name="mc" type="MCType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VersionType">
+		<xs:sequence>
+			<xs:element name="standard" type="xs:string" />
+			<xs:element name="vendor" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DepotType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+		</xs:sequence>
+		<xsd:attribute default="false" name="enable" type="xs:boolean" />
+	</xs:complexType>
+
+	<xs:complexType name="CycleType">
+		<xsd:complexContent>
+			<xsd:extension base="DepotType">
+				<xs:sequence>
+					<xs:element name="subscribers" type="SubscribersType" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SubscribersType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="subscriber" type="SubscriberType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SubscriberType">
+		<xsd:complexContent>
+			<xsd:extension base="DepotType">
+				<xs:sequence>
+					<xs:element name="uri" type="xs:anyURI" />
+					<xs:element minOccurs="0" name="properties" type="PropertiesType" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="EventCyclesType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="eventCycle" type="EventCycleType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EventCycleType">
+		<xsd:complexContent>
+			<xsd:extension base="CycleType">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:ECSpec" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ECType">
+		<xs:sequence>
+			<xs:element name="version" type="VersionType" />
+			<xs:element name="eventCycles" type="EventCyclesType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CommandCyclesType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="commandCycle" type="CommandCycleType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CommandCycleType">
+		<xsd:complexContent>
+			<xsd:extension base="CycleType">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:CCSpec" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="CachesType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="cache" type="CacheType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CacheType">
+		<xsd:complexContent>
+			<xsd:extension base="DepotType">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:EPCCacheSpec" />
+					<xs:element name="patterns" type="ale:EPCPatternList" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="AssociationsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="association" type="AssociationType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AssociationType">
+		<xsd:complexContent>
+			<xsd:extension base="DepotType">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:AssocTableSpec" />
+					<xs:element name="entries" type="ale:AssocTableEntryList" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="RandomsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="random" type="RandomType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RandomType">
+		<xsd:complexContent>
+			<xsd:extension base="DepotType">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:RNGSpec" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="CCType">
+		<xs:sequence>
+			<xs:element name="version" type="VersionType" />
+			<xs:element name="commandCycles" type="CommandCyclesType" />
+			<xs:element name="caches" type="CachesType" />
+			<xs:element name="associations" type="AssociationsType" />
+			<xs:element name="randoms" type="RandomsType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="FieldsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="field" type="FieldType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="FieldType">
+		<xsd:complexContent>
+			<xsd:extension base="DepotType">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:TMSpec" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="TMType">
+		<xs:sequence>
+			<xs:element name="version" type="VersionType" />
+			<xs:element name="fields" type="FieldsType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="LogicalReadersType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="logicalReader" type="LogicalReaderType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="LogicalReaderType">
+		<xsd:complexContent>
+			<xsd:extension base="DepotType">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:LRSpec" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="LRType">
+		<xs:sequence>
+			<xs:element name="version" type="VersionType" />
+			<xs:element name="logicalReaders" type="LogicalReadersType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ACType">
+		<xs:sequence>
+			<xs:element name="version" type="VersionType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PortCyclesType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="portCycle" type="PortCycleType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PortCycleType">
+		<xsd:complexContent>
+			<xsd:extension base="CycleType">
+				<xs:sequence>
+					<xs:element name="spec" type="havis:PCSpec" />
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PCType">
+		<xs:sequence>
+			<xs:element name="version" type="VersionType" />
+			<xs:element name="portCycles" type="PortCyclesType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MCType">
+		<xs:sequence>
+			<xs:element name="version" type="VersionType" />
+			<xs:element name="files" type="FilesType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="UnicodeType">
+		<xs:sequence>
+			<xs:element name="patternWhiteSpace" type="xs:string" />
+			<xs:element name="patternSyntax" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TriggerType">
+		<xs:sequence>
+			<xs:element name="rtc" type="xs:string" />
+			<xs:element name="http" type="xs:string" />
+			<xs:element name="port" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="UrnType">
+		<xs:sequence>
+			<xs:element name="trigger" type="TriggerType" />
+			<xs:element name="oid" type="xs:string" />
+			<xs:element name="pattern" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ReaderCycleType">
+		<xs:sequence>
+			<xs:element name="duration" type="xs:int" />
+			<xs:element name="count" type="xs:int" />
+			<xs:element name="lifetime" type="xs:long" />
+			<xs:element name="extended" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SubscriberConfigType">
+		<xs:sequence>
+			<xs:element name="connectTimeout" type="xs:unsignedShort" />
+			<xs:element name="httpsSecurity" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RetriesType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="retry" type="xs:int" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="FilesType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="file" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PropertiesType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="property" type="PropertyType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PropertyType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="value" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

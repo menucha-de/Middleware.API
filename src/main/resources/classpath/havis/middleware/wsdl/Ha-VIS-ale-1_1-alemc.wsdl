@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ALEMCSERVICE DEFINITIONS -->
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:havis="urn:havis:ale:xsd:1"
+                  xmlns:impl="urn:havis:alemc:wsdl:1"
+                  targetNamespace="urn:havis:alemc:wsdl:1">
+  <!-- ALEMCSERVICE TYPES -->
+  <wsdl:types>
+    <xsd:schema targetNamespace="urn:havis:alemc:wsdl:1">
+      <xsd:import namespace="urn:havis:ale:xsd:1"
+                  schemaLocation="Ha-VIS-ale-1_1-alemc.xsd"/>
+      <!-- ALEMCSERVICE MESSAGE WRAPPERS -->
+
+      <xsd:element name="Add" type="impl:Add"/>
+      <xsd:complexType name="Add">
+        <xsd:sequence>
+          <xsd:element name="path" type="havis:MCPath"/>
+          <xsd:element name="spec" type="havis:MCSpec"/>
+          <xsd:element name="parent" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="AddResult" type="xsd:string"/>
+
+      <xsd:element name="Remove" type="impl:Remove"/>
+      <xsd:complexType name="Remove">
+        <xsd:sequence>
+          <xsd:element name="path" type="havis:MCPath"/>
+          <xsd:element name="id" type="xsd:string"/>
+          <xsd:element name="parent" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:element name="Update" type="impl:Update"/>
+      <xsd:complexType name="Update">
+        <xsd:sequence>
+          <xsd:element name="path" type="havis:MCPath"/>
+          <xsd:element name="id" type="xsd:string"/>
+          <xsd:element name="spec" type="havis:MCSpec"/>
+          <xsd:element name="parent" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:element name="Get" type="impl:Get"/>
+      <xsd:complexType name="Get">
+        <xsd:sequence>
+          <xsd:element name="path" type="havis:MCPath"/>
+          <xsd:element name="id" type="xsd:string"/>
+          <xsd:element name="parent" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="GetResult" type="havis:MCSpec"/>
+
+      <xsd:element name="List" type="impl:List"/>
+      <xsd:complexType name="List">
+        <xsd:sequence>
+          <xsd:element name="path" type="havis:MCPath"/>
+          <xsd:element name="parent" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ListResult" type="impl:ArrayOfString"/>
+
+      <xsd:element name="GetProperty" type="impl:GetProperty"/>
+      <xsd:complexType name="GetProperty">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="GetPropertyResult" type="xsd:string"/>
+
+      <xsd:element name="GetProperties" type="impl:GetProperties"/>
+      <xsd:complexType name="GetProperties">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" minOccurs="0"
+                         maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="GetPropertiesResult" type="havis:MCProperties"/>
+
+      <xsd:element name="SetProperty" type="impl:SetProperty"/>
+      <xsd:complexType name="SetProperty">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string"/>
+          <xsd:element name="value" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="SetPropertyResult">
+        <xsd:complexType/>
+      </xsd:element>
+
+      <xsd:element name="GetStandardVersion" type="impl:EmptyParms"/>
+      <xsd:element name="GetStandardVersionResult" type="xsd:string"/>
+
+      <xsd:element name="GetVendorVersion" type="impl:EmptyParms"/>
+      <xsd:element name="GetVendorVersionResult" type="xsd:string"/>
+
+      <xsd:element name="ALEException" type="impl:ALEException"/>
+      <xsd:complexType name="ALEException">
+        <xsd:sequence>
+          <xsd:element name="reason" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:element name="NoSuchPathException" type="impl:NoSuchPathException"/>
+      <xsd:complexType name="NoSuchPathException">
+        <xsd:complexContent>
+          <xsd:extension base="impl:ALEException"/>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:element name="NoSuchIdException" type="impl:NoSuchIdException"/>
+      <xsd:complexType name="NoSuchIdException">
+        <xsd:complexContent>
+          <xsd:extension base="impl:ALEException"/>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:element name="NoSuchPropertyException" type="impl:NoSuchPropertyException"/>
+      <xsd:complexType name="NoSuchPropertyException">
+        <xsd:complexContent>
+          <xsd:extension base="impl:ALEException"/>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:element name="MCSpecValidationException" type="impl:MCSpecValidationException"/>
+      <xsd:complexType name="MCSpecValidationException">
+        <xsd:complexContent>
+          <xsd:extension base="impl:ALEException"/>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:element name="SecurityException" type="impl:SecurityException"/>
+      <xsd:complexType name="SecurityException">
+        <xsd:complexContent>
+          <xsd:extension base="impl:ALEException"/>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:element name="ImplementationException" type="impl:ImplementationException"/>
+      <xsd:complexType name="ImplementationException">
+        <xsd:complexContent>
+          <xsd:extension base="impl:ALEException">
+            <xsd:sequence>
+              <xsd:element name="severity" type="impl:ImplementationExceptionSeverity"/>
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfString">
+        <xsd:sequence>
+          <xsd:element name="string" type="xsd:string" minOccurs="0"
+                       maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- The ImplementationExceptionSeverity type is an enumerated type.
+           The following strings are legal values for this type:
+             ERROR
+             SEVERE
+            -->
+      <xsd:simpleType name="ImplementationExceptionSeverity">
+        <xsd:restriction base="xsd:string"/>
+      </xsd:simpleType>
+
+      <xsd:element name="VoidHolder" type="impl:VoidHolder"/>
+      <xsd:complexType name="VoidHolder"/>
+
+      <xsd:complexType name="EmptyParms"/>
+    </xsd:schema>
+  </wsdl:types>
+  <!-- ALEMCSERVICE MESSAGES -->
+
+  <wsdl:message name="addRequest">
+    <wsdl:part name="parms" element="impl:Add"/>
+  </wsdl:message>
+  <wsdl:message name="addResponse">
+    <wsdl:part name="addReturn" element="impl:AddResult"/>
+  </wsdl:message>
+
+  <wsdl:message name="removeRequest">
+    <wsdl:part name="parms" element="impl:Remove"/>
+  </wsdl:message>
+  <wsdl:message name="removeResponse">
+    <wsdl:part name="removeReturn" element="impl:VoidHolder"/>
+  </wsdl:message>
+
+  <wsdl:message name="updateRequest">
+    <wsdl:part name="parms" element="impl:Update"/>
+  </wsdl:message>
+  <wsdl:message name="updateResponse">
+    <wsdl:part name="updateReturn" element="impl:VoidHolder"/>
+  </wsdl:message>
+
+  <wsdl:message name="getRequest">
+    <wsdl:part name="parms" element="impl:Get"/>
+  </wsdl:message>
+  <wsdl:message name="getResponse">
+    <wsdl:part name="getReturn" element="impl:GetResult"/>
+  </wsdl:message>
+
+  <wsdl:message name="listRequest">
+    <wsdl:part name="parms" element="impl:List"/>
+  </wsdl:message>
+  <wsdl:message name="listResponse">
+    <wsdl:part name="listReturn" element="impl:ListResult"/>
+  </wsdl:message>
+
+  <wsdl:message name="getPropertyRequest">
+    <wsdl:part name="parms" element="impl:GetProperty"/>
+  </wsdl:message>
+  <wsdl:message name="getPropertyResponse">
+    <wsdl:part name="getPropertyReturn" element="impl:GetPropertyResult"/>
+  </wsdl:message>
+
+  <wsdl:message name="getPropertiesRequest">
+    <wsdl:part name="parms" element="impl:GetProperties"/>
+  </wsdl:message>
+  <wsdl:message name="getPropertiesResponse">
+    <wsdl:part name="getPropertiesReturn" element="impl:GetPropertiesResult"/>
+  </wsdl:message>
+
+  <wsdl:message name="setPropertyRequest">
+    <wsdl:part name="parms" element="impl:SetProperty"/>
+  </wsdl:message>
+  <wsdl:message name="setPropertyResponse">
+    <wsdl:part name="setPropertyReturn" element="impl:SetPropertyResult"/>
+  </wsdl:message>
+
+  <wsdl:message name="getStandardVersionRequest">
+    <wsdl:part name="parms" element="impl:GetStandardVersion"/>
+  </wsdl:message>
+  <wsdl:message name="getStandardVersionResponse">
+    <wsdl:part name="getStandardVersionReturn" element="impl:GetStandardVersionResult"/>
+  </wsdl:message>
+
+  <wsdl:message name="getVendorVersionRequest">
+    <wsdl:part name="parms" element="impl:GetVendorVersion"/>
+  </wsdl:message>
+  <wsdl:message name="getVendorVersionResponse">
+    <wsdl:part name="getVendorVersionReturn" element="impl:GetVendorVersionResult"/>
+  </wsdl:message>
+
+  <wsdl:message name="NoSuchPathExceptionResponse">
+    <wsdl:part name="fault" element="impl:NoSuchPathException"/>
+  </wsdl:message>
+
+  <wsdl:message name="NoSuchIdExceptionResponse">
+    <wsdl:part name="fault" element="impl:NoSuchIdException"/>
+  </wsdl:message>
+
+  <wsdl:message name="NoSuchPropertyExceptionResponse">
+    <wsdl:part name="fault" element="impl:NoSuchPropertyException"/>
+  </wsdl:message>
+
+  <wsdl:message name="MCSpecValidationExceptionResponse">
+    <wsdl:part name="fault" element="impl:MCSpecValidationException"/>
+  </wsdl:message>
+
+  <wsdl:message name="SecurityExceptionResponse">
+    <wsdl:part name="fault" element="impl:SecurityException"/>
+  </wsdl:message>
+
+  <wsdl:message name="ImplementationExceptionResponse">
+    <wsdl:part name="fault" element="impl:ImplementationException"/>
+  </wsdl:message>
+  <!-- ALEMCSERVICE PORTTYPE -->
+
+  <wsdl:portType name="ALEMCServicePortType">
+
+    <wsdl:operation name="add">
+      <wsdl:input message="impl:addRequest" name="addRequest"/>
+      <wsdl:output message="impl:addResponse" name="addResponse"/>
+      <wsdl:fault message="impl:NoSuchPathExceptionResponse"
+                  name="NoSuchPathExceptionFault"/>
+      <wsdl:fault message="impl:MCSpecValidationExceptionResponse"
+                  name="MCSpecValidationExceptionFault"/>
+      <wsdl:fault message="impl:SecurityExceptionResponse"
+                  name="SecurityExceptionFault"/>
+      <wsdl:fault message="impl:ImplementationExceptionResponse"
+                  name="ImplementationExceptionFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="remove">
+      <wsdl:input message="impl:removeRequest" name="removeRequest"/>
+      <wsdl:output message="impl:removeResponse" name="removeResponse"/>
+      <wsdl:fault message="impl:NoSuchPathExceptionResponse"
+                  name="NoSuchPathExceptionFault"/>
+      <wsdl:fault message="impl:NoSuchIdExceptionResponse"
+                  name="NoSuchIdExceptionFault"/>
+      <wsdl:fault message="impl:MCSpecValidationExceptionResponse"
+                  name="MCSpecValidationExceptionFault"/>
+      <wsdl:fault message="impl:SecurityExceptionResponse"
+                  name="SecurityExceptionFault"/>
+      <wsdl:fault message="impl:ImplementationExceptionResponse"
+                  name="ImplementationExceptionFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="update">
+      <wsdl:input message="impl:updateRequest" name="updateRequest"/>
+      <wsdl:output message="impl:updateResponse" name="updateResponse"/>
+      <wsdl:fault message="impl:NoSuchPathExceptionResponse"
+                  name="NoSuchPathExceptionFault"/>
+      <wsdl:fault message="impl:NoSuchIdExceptionResponse"
+                  name="NoSuchIdExceptionFault"/>
+      <wsdl:fault message="impl:MCSpecValidationExceptionResponse"
+                  name="MCSpecValidationExceptionFault"/>
+      <wsdl:fault message="impl:SecurityExceptionResponse"
+                  name="SecurityExceptionFault"/>
+      <wsdl:fault message="impl:ImplementationExceptionResponse"
+                  name="ImplementationExceptionFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="get">
+      <wsdl:input message="impl:getRequest" name="getRequest"/>
+      <wsdl:output message="impl:getResponse" name="getResponse"/>
+      <wsdl:fault message="impl:NoSuchPathExceptionResponse"
+                  name="NoSuchPathExceptionFault"/>
+      <wsdl:fault message="impl:NoSuchIdExceptionResponse"
+                  name="NoSuchIdExceptionFault"/>
+      <wsdl:fault message="impl:SecurityExceptionResponse"
+                  name="SecurityExceptionFault"/>
+      <wsdl:fault message="impl:ImplementationExceptionResponse"
+                  name="ImplementationExceptionFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="list">
+      <wsdl:input message="impl:listRequest" name="listRequest"/>
+      <wsdl:output message="impl:listResponse" name="listResponse"/>
+      <wsdl:fault message="impl:NoSuchPathExceptionResponse"
+                  name="NoSuchPathExceptionFault"/>
+      <wsdl:fault message="impl:NoSuchIdExceptionResponse"
+                  name="NoSuchIdExceptionFault"/>
+      <wsdl:fault message="impl:SecurityExceptionResponse"
+                  name="SecurityExceptionFault"/>
+      <wsdl:fault message="impl:ImplementationExceptionResponse"
+                  name="ImplementationExceptionFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getProperty">
+      <wsdl:input message="impl:getPropertyRequest" name="getPropertyRequest"/>
+      <wsdl:output message="impl:getPropertyResponse" name="getPropertyResponse"/>
+      <wsdl:fault message="impl:NoSuchPropertyExceptionResponse"
+                  name="NoSuchPropertyExceptionFault"/>
+      <wsdl:fault message="impl:SecurityExceptionResponse"
+                  name="SecurityExceptionFault"/>
+      <wsdl:fault message="impl:ImplementationExceptionResponse"
+                  name="ImplementationExceptionFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getProperties">
+      <wsdl:input message="impl:getPropertiesRequest" name="getPropertiesRequest"/>
+      <wsdl:output message="impl:getPropertiesResponse" name="getPropertiesResponse"/>
+      <wsdl:fault message="impl:NoSuchPropertyExceptionResponse"
+                  name="NoSuchPropertyExceptionFault"/>
+      <wsdl:fault message="impl:SecurityExceptionResponse"
+                  name="SecurityExceptionFault"/>
+      <wsdl:fault message="impl:ImplementationExceptionResponse"
+                  name="ImplementationExceptionFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="setProperty">
+      <wsdl:input message="impl:setPropertyRequest" name="setPropertyRequest"/>
+      <wsdl:output message="impl:setPropertyResponse" name="setPropertyResponse"/>
+      <wsdl:fault message="impl:NoSuchPropertyExceptionResponse"
+                  name="NoSuchPropertyExceptionFault"/>
+      <wsdl:fault message="impl:SecurityExceptionResponse"
+                  name="SecurityExceptionFault"/>
+      <wsdl:fault message="impl:ImplementationExceptionResponse"
+                  name="ImplementationExceptionFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getStandardVersion">
+      <wsdl:input message="impl:getStandardVersionRequest"
+                  name="getStandardVersionRequest"/>
+      <wsdl:output message="impl:getStandardVersionResponse"
+                   name="getStandardVersionResponse"/>
+      <wsdl:fault message="impl:ImplementationExceptionResponse"
+                  name="ImplementationExceptionFault"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="getVendorVersion">
+      <wsdl:input message="impl:getVendorVersionRequest" name="getVendorVersionRequest"/>
+      <wsdl:output message="impl:getVendorVersionResponse"
+                   name="getVendorVersionResponse"/>
+      <wsdl:fault message="impl:ImplementationExceptionResponse"
+                  name="ImplementationExceptionFault"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <!-- ALEMCSERVICE BINDING -->
+
+  <wsdl:binding name="ALEMCServiceBinding" type="impl:ALEMCServicePortType">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <wsdl:operation name="add">
+
+      <wsdl:input name="addRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NoSuchPathExceptionFault">
+        <wsdlsoap:fault name="NoSuchPathExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MCSpecValidationExceptionFault">
+        <wsdlsoap:fault name="MCSpecValidationExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="SecurityExceptionFault">
+        <wsdlsoap:fault name="SecurityExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ImplementationExceptionFault">
+        <wsdlsoap:fault name="ImplementationExceptionFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="remove">
+
+      <wsdl:input name="removeRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NoSuchPathExceptionFault">
+        <wsdlsoap:fault name="NoSuchPathExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchIdExceptionFault">
+        <wsdlsoap:fault name="NoSuchIdExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MCSpecValidationExceptionFault">
+        <wsdlsoap:fault name="MCSpecValidationExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="SecurityExceptionFault">
+        <wsdlsoap:fault name="SecurityExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ImplementationExceptionFault">
+        <wsdlsoap:fault name="ImplementationExceptionFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="update">
+
+      <wsdl:input name="updateRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NoSuchPathExceptionFault">
+        <wsdlsoap:fault name="NoSuchPathExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchIdExceptionFault">
+        <wsdlsoap:fault name="NoSuchIdExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MCSpecValidationExceptionFault">
+        <wsdlsoap:fault name="MCSpecValidationExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="SecurityExceptionFault">
+        <wsdlsoap:fault name="SecurityExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ImplementationExceptionFault">
+        <wsdlsoap:fault name="ImplementationExceptionFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="get">
+
+      <wsdl:input name="getRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NoSuchPathExceptionFault">
+        <wsdlsoap:fault name="NoSuchPathExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchIdExceptionFault">
+        <wsdlsoap:fault name="NoSuchIdExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="SecurityExceptionFault">
+        <wsdlsoap:fault name="SecurityExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ImplementationExceptionFault">
+        <wsdlsoap:fault name="ImplementationExceptionFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="list">
+
+      <wsdl:input name="listRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="listResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NoSuchPathExceptionFault">
+        <wsdlsoap:fault name="NoSuchPathExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchIdExceptionFault">
+        <wsdlsoap:fault name="NoSuchIdExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="SecurityExceptionFault">
+        <wsdlsoap:fault name="SecurityExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ImplementationExceptionFault">
+        <wsdlsoap:fault name="ImplementationExceptionFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="getProperty">
+
+      <wsdl:input name="getPropertyRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPropertyResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NoSuchPropertyExceptionFault">
+        <wsdlsoap:fault name="NoSuchPropertyExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="SecurityExceptionFault">
+        <wsdlsoap:fault name="SecurityExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ImplementationExceptionFault">
+        <wsdlsoap:fault name="ImplementationExceptionFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="getProperties">
+
+      <wsdl:input name="getPropertiesRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPropertiesResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NoSuchPropertyExceptionFault">
+        <wsdlsoap:fault name="NoSuchPropertyExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="SecurityExceptionFault">
+        <wsdlsoap:fault name="SecurityExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ImplementationExceptionFault">
+        <wsdlsoap:fault name="ImplementationExceptionFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="setProperty">
+
+      <wsdl:input name="setPropertyRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="setPropertyResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NoSuchPropertyExceptionFault">
+        <wsdlsoap:fault name="NoSuchPropertyExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="SecurityExceptionFault">
+        <wsdlsoap:fault name="SecurityExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ImplementationExceptionFault">
+        <wsdlsoap:fault name="ImplementationExceptionFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="getStandardVersion">
+
+      <wsdl:input name="getStandardVersionRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStandardVersionResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ImplementationExceptionFault">
+        <wsdlsoap:fault name="ImplementationExceptionFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="getVendorVersion">
+
+      <wsdl:input name="getVendorVersionRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVendorVersionResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ImplementationExceptionFault">
+        <wsdlsoap:fault name="ImplementationExceptionFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <!-- ALEMCSERVICE -->
+  <wsdl:service name="ALEMCService">
+    <wsdl:port binding="impl:ALEMCServiceBinding" name="ALEMCServicePort">
+      <!-- The value of the location attribute below is an example only;
+           Implementations are free to choose any appropriate URL. -->
+      <wsdlsoap:address location="http://localhost:8080/services/ALEMCService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

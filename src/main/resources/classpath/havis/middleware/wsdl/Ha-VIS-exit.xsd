@@ -1,0 +1,1067 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="urn:havis:middleware:exit:xsd:1" xmlns:ale="urn:epcglobal:ale:xsd:1" xmlns:base="urn:havis:middleware:base:xsd:1" xmlns:epcglobal="urn:epcglobal:xsd:1" xmlns:havis="urn:havis:ale:xsd:1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="urn:havis:middleware:exit:xsd:1" version="1.0">
+
+	<xsd:import namespace="urn:epcglobal:ale:xsd:1" schemaLocation="EPCglobal-ale-1_1.xsd" />
+	<xsd:import namespace="urn:havis:ale:xsd:1" schemaLocation="Ha-VIS-ale-1_1-alepc.xsd"/>
+	<xsd:import namespace="urn:havis:middleware:base:xsd:1" schemaLocation="Ha-VIS-base.xsd"/>
+
+	<xs:complexType name="EventArgs">
+		<xs:sequence>
+			<xs:element name="timestamp" type="xsd:dateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MessageArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+					<xs:element name="text" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="InformationArgs">
+		<xsd:complexContent>
+			<xsd:extension base="MessageArgs"/>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="WarningArgs">
+		<xsd:complexContent>
+			<xsd:extension base="MessageArgs"/>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ErrorArgs">
+		<xsd:complexContent>
+			<xsd:extension base="MessageArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="StateArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+					<xs:element name="state" type="base:State"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="TriggerArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+					<xs:element name="uri" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="BeginArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="EvaluateArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="NotifyArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+					<xs:element name="reader" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="NotifyTagArgs">
+		<xsd:complexContent>
+			<xsd:extension base="NotifyArgs">
+				<xs:sequence>
+					<xs:element name="tag" type="base:Tag"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="NotifyPortArgs">
+		<xsd:complexContent>
+			<xsd:extension base="NotifyArgs">
+				<xs:sequence>
+					<xs:element name="port" type="base:Port"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="NotifyMessageArgs">
+		<xsd:complexContent>
+			<xsd:extension base="NotifyArgs">
+				<xs:sequence>
+					<xs:element name="message" type="base:Message"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="FilterArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+					<xs:element name="reader" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="FilterTagArgs">
+		<xsd:complexContent>
+			<xsd:extension base="FilterArgs">
+				<xs:sequence>
+					<xs:element name="tag" type="base:Tag"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="FilterPortArgs">
+		<xsd:complexContent>
+			<xsd:extension base="FilterArgs">
+				<xs:sequence>
+					<xs:element name="port" type="base:Port"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ExecuteTagArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+					<xs:element name="reader" type="xsd:string"/>
+					<xs:element name="tag" type="base:Tag"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ExecutePortArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+					<xs:element name="reader" type="xsd:string"/>
+					<xs:element name="port" type="base:Port"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ReportArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DeliverArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DeliverECReportsArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DeliverArgs">
+				<xs:sequence>
+					<xs:element name="reports" type="ale:ECReports"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DeliverCCReportsArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DeliverArgs">
+				<xs:sequence>
+					<xs:element name="reports" type="ale:CCReports"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DeliverPCReportsArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DeliverArgs">
+				<xs:sequence>
+					<xs:element name="reports" type="havis:PCReports"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineECSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:ECSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineECSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineECSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineLRSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:LRSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineLRSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineLRSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineTMSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:TMSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineTMSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineTMSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineCCSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:CCSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineCCSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineCCSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineEPCCacheSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:EPCCacheSpec"/>
+					<xs:element maxOccurs="unbounded" name="Entry" type="xs:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineEPCCacheSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineEPCCacheSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineAssocTableSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:AssocTableSpec"/>
+					<xs:element maxOccurs="unbounded" name="entry" type="ale:AssocTableEntry"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineAssocTableSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineAssocTableSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineRNGSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:RNGSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefineRNGSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineRNGSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefinePCSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefineArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="havis:PCSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DefinePCSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DefinePCSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UpdateArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UpdateFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="UpdateArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UpdateLRSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="UpdateArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:LRSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UpdateLRSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="UpdateLRSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UndefineArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UndefineFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="UndefineArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="GetArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetStringArgs">
+		<xsd:complexContent>
+			<xsd:extension base="GetArgs">
+				<xs:sequence>
+					<xs:element name="entry" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetStringFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="GetStringArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetStringsArgs">
+		<xsd:complexContent>
+			<xsd:extension base="GetArgs">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="entry" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetStringsFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="GetStringsArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="AddArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="AddFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="AddArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="AddStringsArgs">
+		<xsd:complexContent>
+			<xsd:extension base="AddArgs">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="entry" type="xs:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="AddStringsFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="AddStringsArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SetArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SetFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="SetArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SetStringsArgs">
+		<xsd:complexContent>
+			<xsd:extension base="SetArgs">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="entry" type="xs:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SetStringsFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="SetStringsArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SetLRPropertiesArgs">
+		<xsd:complexContent>
+			<xsd:extension base="SetArgs">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="entry" type="ale:LRProperty"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SetLRPropertiesFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="SetLRPropertiesArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="RemoveArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="RemoveFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="RemoveArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="RemoveStringArgs">
+		<xsd:complexContent>
+			<xsd:extension base="RemoveArgs">
+				<xs:sequence>
+					<xs:element name="entry" type="xs:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="RemoveStringFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="RemoveStringArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="RemoveStringsArgs">
+		<xsd:complexContent>
+			<xsd:extension base="RemoveArgs">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="entry" type="xs:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="RemoveStringsFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="RemoveStringsArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SubscribeArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+					<xs:element name="uri" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SubscribeFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="SubscribeArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UnsubscribeArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+					<xs:element name="uri" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UnsubscribeFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="UnsubscribeArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PollArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PollFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="PollArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PollCCSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="PollArgs">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="entry" type="ale:CCParameterListEntry"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PollCCSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="PollCCSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ImmediateArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ImmediateFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="ImmediateArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ImmediateECSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="ImmediateArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:ECSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ImmediateECSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="ImmediateECSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ImmediateCCSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="ImmediateArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="ale:CCSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ImmediateCCSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="ImmediateCCSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ImmediatePCSpecArgs">
+		<xsd:complexContent>
+			<xsd:extension base="ImmediateArgs">
+				<xs:sequence>
+					<xs:element name="spec" type="havis:PCSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ImmediatePCSpecFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="ImmediatePCSpecArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetSubscribersArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="GetSubscribersFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="PollArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ReplenishArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+					<xs:element maxOccurs="unbounded" name="entry" type="xs:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ReplenishFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="ReplenishArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DepleteArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DepleteFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="DepleteArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PutArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element name="name" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PutFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="PutArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PutStringsArgs">
+		<xsd:complexContent>
+			<xsd:extension base="PutArgs">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="entry" type="xsd:string"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PutStringsFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="PutStringsArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PutAssocTableEntriesArgs">
+		<xsd:complexContent>
+			<xsd:extension base="PutArgs">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="entry" type="ale:AssocTableEntry"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PutAssocTableEntriesFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="PutAssocTableEntriesArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+		
+	<xs:complexType name="ExecutePCOpSpecsArgs">
+		<xsd:complexContent>
+			<xsd:extension base="EventArgs">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="spec" type="havis:PCOpSpec"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ExecutePCOpSpecsFailedArgs">
+		<xsd:complexContent>
+			<xsd:extension base="ExecutePCOpSpecsArgs">
+				<xs:sequence>
+					<xs:element name="exception" type="ALEException"/>
+				</xs:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xs:complexType>
+
+	<xsd:complexType name="ALEException">
+		<xsd:sequence>
+			<xsd:element name="reason" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="DuplicateNameException">
+		<xsd:complexContent>
+			<xsd:extension base="ALEException"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="NoSuchNameException">
+		<xsd:complexContent>
+			<xsd:extension base="ALEException"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="InUseException">
+		<xsd:complexContent>
+			<xsd:extension base="ALEException"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="ValidationException">
+		<xsd:complexContent>
+			<xsd:extension base="ALEException"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="ImmutableReaderException">
+		<xsd:complexContent>
+			<xsd:extension base="ALEException"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="NonCompositeReaderException">
+		<xsd:complexContent>
+			<xsd:extension base="ALEException"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="ReaderLoopException">
+		<xsd:complexContent>
+			<xsd:extension base="ALEException"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="SecurityException">
+		<xsd:complexContent>
+			<xsd:extension base="ALEException"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="ImplementationException">
+		<xsd:complexContent>
+			<xsd:extension base="ALEException">
+				<xsd:sequence>
+					<xsd:element name="severity" type="ImplementationExceptionSeverity"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:simpleType name="ImplementationExceptionSeverity">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+</xs:schema>
